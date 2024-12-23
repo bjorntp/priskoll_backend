@@ -2,11 +2,9 @@ const express = require('express');
 const sequelize = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const updateData = require('./controllers/updateData');
-
-app.get('/', (req, res) => {
-  res.send('Hello world! AGAIN! AND ONCE MORE!');
-});
+const getWines = require('./jobs/getWines')
+const getBeers = require('./jobs/getBeers')
+const getSpirits = require('./jobs/getSpirits')
 
 async function init() {
   try {
@@ -18,7 +16,11 @@ async function init() {
 }
 
 init();
-updateData();
+
+//getWines();
+//getBeers();
+//getSpirits();
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
