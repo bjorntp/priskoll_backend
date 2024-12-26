@@ -4,16 +4,13 @@ const fetchProductData = require('./fetchProductData');
 
 const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
-  let addToDB = [];
   if (dbProduct) {
     if (dbProduct.price !== element.price) {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
       if (history) {
-        history.oldPrices.push({
-          oldPrices: history.newPrice,
-          newPrice: element.price,
-          updatedAt: new Date(),
-        });
+        history.oldPrices = [{ oldPrice: history.newPrice, newPrice: element.price, updatedAt: new Date() }, ...history.oldPrices]
+        history.newPrice = element.price;
+        await history.save();
       } else {
         await PriceHistory.create({
           productId: element.productId,

@@ -1,10 +1,9 @@
 const express = require('express');
 const sequelize = require('./config/db');
 const app = express();
+const updateRoutes = require('./routes/updateRoutes')
+const fetchRoutes = require('./routes/fetchRoutes')
 const PORT = process.env.PORT || 3000;
-const getWines = require('./jobs/getWines')
-const getBeers = require('./jobs/getBeers')
-const getSpirits = require('./jobs/getSpirits')
 
 async function init() {
   try {
@@ -17,10 +16,9 @@ async function init() {
 
 init();
 
-//getWines();
-//getBeers();
-//getSpirits();
-
+app.use(express.json())
+app.use('/api/update', updateRoutes)
+app.use('/api/get', fetchRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
