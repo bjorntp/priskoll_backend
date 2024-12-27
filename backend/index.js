@@ -4,6 +4,7 @@ const app = express();
 const updateRoutes = require('./routes/updateRoutes')
 const fetchRoutes = require('./routes/fetchRoutes')
 const PORT = process.env.PORT || 3001;
+const cors = require('cors')
 
 async function init() {
   try {
@@ -14,9 +15,15 @@ async function init() {
   }
 }
 
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://frontend:5173'], // Allow requests from localhost:3000 (your frontend)
+  methods: ['GET', 'POST'], // Allow GET and POST requests
+};
+
 init();
 
 app.use(express.json())
+app.use(cors(corsOptions));
 app.use('/api/update', updateRoutes)
 app.use('/api/get', fetchRoutes)
 
