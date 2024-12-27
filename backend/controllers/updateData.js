@@ -5,11 +5,13 @@ const fetchProductData = require('./fetchProductData');
 const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
   if (dbProduct) {
+    const percentage = element.price / dbProduct.price;
     if (dbProduct.price !== element.price) {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
       if (history) {
         history.oldPrices = [{ oldPrice: history.newPrice, newPrice: element.price, updatedAt: new Date() }, ...history.oldPrices]
         history.newPrice = element.price;
+        history.changePercentage = percentage;
         await history.save();
       } else {
         await PriceHistory.create({
@@ -18,6 +20,7 @@ const addData = async (element) => {
             { oldPrice: dbProduct.price, newPrice: element.price, updatedAt: new Date() }
           ],
           newPrice: element.price,
+          changePercentage: percentage,
         });
       }
       dbProduct.update(element);

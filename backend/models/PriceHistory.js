@@ -13,6 +13,10 @@ const PriceHistory = sequelize.define('PriceHistory', {
   newPrice: {
     type: DataTypes.FLOAT,
     allowNull: false,
+  },
+  changePercentage: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
   }
 });
 

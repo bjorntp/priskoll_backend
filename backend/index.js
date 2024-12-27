@@ -3,7 +3,7 @@ const sequelize = require('./config/db');
 const app = express();
 const updateRoutes = require('./routes/updateRoutes')
 const fetchRoutes = require('./routes/fetchRoutes')
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 async function init() {
   try {
