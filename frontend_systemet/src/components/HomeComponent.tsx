@@ -16,7 +16,7 @@ const HomeComponent = () => {
         ${!isAnimating ? 'h-1/2 w-1/3' : 'h-5/6 w-2/3'}`} >
         {!isAnimating && (
           <>
-            <button className="transition transform duration-500 bg-navy text-baby w-3/4 h-1/6 rounded-xl px-4 py-2 hover:bg-baby hover:text-grotto hover:scale-110 hover:shadow-lg">
+            <button onClick={() => handleButtonClick('lowered')} className="transition transform duration-500 bg-navy text-baby w-3/4 h-1/6 rounded-xl px-4 py-2 hover:bg-baby hover:text-grotto hover:scale-110 hover:shadow-lg">
               Sänkta priser
             </button>
             <button className="transition transform duration-500 bg-navy text-baby w-3/4 h-1/6 rounded-xl px-4 py-2 hover:bg-baby hover:text-grotto hover:scale-110 hover:shadow-lg">

@@ -1,12 +1,11 @@
 const sequelize = require('../config/db');
-const productDB = require('../models/Product')
-const priceDB = require('../models/PriceHistory');
+const Product = require('../models/Product')
 const PriceHistory = require('../models/PriceHistory');
 const { where, Op } = require('sequelize');
 
 const getApk = async (req, res) => {
   try {
-    const productsApk = await productDB.findAll({
+    const productsApk = await Product.findAll({
       order: [['apk', 'DESC']],
       limit: 50,
     });
@@ -29,7 +28,12 @@ const getPriceChangesLower = async (req, res) => {
           changePercentage: {
             [Op.lt]: 1
           }
-        }
+        },
+        include: [
+          {
+            model: Product,
+          }
+        ]
       }
     )
     return res.status(200).json(productsLowered)

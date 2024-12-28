@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require('../config/db');
+const PriceHistory = require('./PriceHistory')
 
 const Product = sequelize.define('Product', {
   alcoholPercentage: { type: DataTypes.FLOAT, allowNull: true },
@@ -71,6 +72,17 @@ const Product = sequelize.define('Product', {
   volumeText: { type: DataTypes.STRING, allowNull: true },
 }, {
   timestamps: true, // Adds createdAt and updatedAt fields
+});
+
+// Define the association
+Product.hasMany(PriceHistory, {
+  foreignKey: 'productId',
+  sourceKey: 'productId',
+});
+
+PriceHistory.belongsTo(Product, {
+  foreignKey: 'productId',
+  targetKey: 'productId',
 });
 
 module.exports = Product;
