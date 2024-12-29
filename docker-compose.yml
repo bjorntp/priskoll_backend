@@ -1,5 +1,4 @@
 services:
-
   db:
     image: mysql:8
     restart: no
@@ -13,6 +12,11 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
@@ -28,7 +32,8 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build: ./frontend_systemet
