@@ -51,7 +51,7 @@ const Product = sequelize.define('Product', {
   packagingLevel1: { type: DataTypes.STRING, allowNull: true },
   price: { type: DataTypes.FLOAT, allowNull: true },
   producerName: { type: DataTypes.STRING, allowNull: true },
-  productId: { type: DataTypes.STRING, allowNull: true, primaryKey: false },
+  productId: { type: DataTypes.STRING, allowNull: true, primaryKey: true },
   productLaunchDate: { type: DataTypes.DATE, allowNull: true },
   productNameBold: { type: DataTypes.STRING, allowNull: true },
   productNameThin: { type: DataTypes.STRING, allowNull: true },

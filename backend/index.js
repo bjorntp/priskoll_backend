@@ -1,8 +1,8 @@
 const express = require('express');
 const sequelize = require('./config/db');
 const app = express();
-const updateRoutes = require('./routes/updateRoutes')
 const fetchRoutes = require('./routes/fetchRoutes')
+const updateRoutes = require('./routes/updateRoutes')
 const PORT = process.env.PORT || 3001;
 const cors = require('cors')
 

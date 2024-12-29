@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { PriceHistory } from "../types/PriceHistory";
 import { useLocation } from "react-router-dom";
 
-const LoweredComponent = () => {
+const RaisedComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
   const location = useLocation();
   const [sort, setSort] = useState("placeholder");
 
   const getData = async () => {
     try {
-      await fetch(`http://localhost:3001/api/get/lowered?sort=${sort}`)
+      await fetch(`http://localhost:3001/api/get/raised?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
       console.log(data)
@@ -59,4 +59,4 @@ const LoweredComponent = () => {
   )
 }
 
-export default LoweredComponent;
+export default RaisedComponent;

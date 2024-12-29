@@ -10,6 +10,7 @@ const addData = async (element) => {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
       if (history) {
         history.oldPrices = [{ oldPrice: history.newPrice, newPrice: element.price, updatedAt: new Date() }, ...history.oldPrices]
+        history.oldPrice = history.newPrice;
         history.newPrice = element.price;
         history.changePercentage = percentage;
         await history.save();
@@ -19,6 +20,7 @@ const addData = async (element) => {
           oldPrices: [
             { oldPrice: dbProduct.price, newPrice: element.price, updatedAt: new Date() }
           ],
+          oldPrice: dbProduct.price,
           newPrice: element.price,
           changePercentage: percentage,
         });

@@ -5,6 +5,6 @@ const router = express.Router()
 
 router.get('/apk', getApk);
 router.get('/lowered', getPriceChangesLower)
-router.get('/risen', getPriceChangesRaise)
+router.get('/raised', getPriceChangesRaise)
 
 module.exports = router;

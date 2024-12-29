@@ -5,10 +5,15 @@ const PriceHistory = sequelize.define('PriceHistory', {
   productId: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   oldPrices: {
     type: DataTypes.JSON,
     defaultValue: [],
+  },
+  oldPrice: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
   },
   newPrice: {
     type: DataTypes.FLOAT,
