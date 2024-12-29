@@ -44,7 +44,9 @@ const updateData = async (args) => {
       newElementsArray.push(x)
     }
   }
-  Product.bulkCreate(newElementsArray);
+  Product.bulkCreate(newElementsArray, {
+    ignoreDuplicates: true,
+  });
 }
 
 module.exports = updateData;

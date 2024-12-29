@@ -75,14 +75,14 @@ const Product = sequelize.define('Product', {
 });
 
 // Define the association
-Product.hasMany(PriceHistory, {
-  foreignKey: 'productId',
-  sourceKey: 'productId',
-});
-
-PriceHistory.belongsTo(Product, {
-  foreignKey: 'productId',
-  targetKey: 'productId',
-});
-
+//Product.hasMany(PriceHistory, {
+//  foreignKey: 'productId',
+//  sourceKey: 'productId',
+//});
+//
+//PriceHistory.belongsTo(Product, {
+//  foreignKey: 'productId',
+//  targetKey: 'productId',
+//});
+//
 module.exports = Product;
