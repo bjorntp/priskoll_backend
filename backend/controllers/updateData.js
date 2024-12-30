@@ -25,14 +25,18 @@ const addData = async (element) => {
           changePercentage: percentage,
         });
       }
-      dbProduct.update(element);
+      await dbProduct.update(element);
+      console.log("Edited: " + element.productId)
     }
+    return null;
   } else {
     const apk = (element.volume * (element.alcoholPercentage / 100)) / element.price;
     element.apk = apk;
+    console.log("Added new: " + element.productId)
     return element;
   }
 };
+
 
 const updateData = async (args) => {
   let executablePath = './systembolagetapi/sysapi'
@@ -49,4 +53,4 @@ const updateData = async (args) => {
   });
 }
 
-module.exports = updateData;
+module.exports = updateData; 

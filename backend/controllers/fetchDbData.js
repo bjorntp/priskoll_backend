@@ -23,7 +23,6 @@ const getApk = async (req, res) => {
 const getPriceChangesLower = async (req, res) => {
   try {
     let { sort } = req.query;
-    console.log(sort);
     let order = [["newPrice", "ASC"]]
     if (sort === "priceabs") {
       order = [[sequelize.literal("oldPrice - newPrice"), "DESC"]]
@@ -32,13 +31,16 @@ const getPriceChangesLower = async (req, res) => {
     } else if (sort === "alphabetical") {
       order = [[{ model: Product }, 'productNameBold', "ASC"]]
     } else if (sort == "category") {
-      order = [[{ model: Product }, 'categoryLevel1']]
+      order = [[{ model: Product }, 'categoryLevel2']]
     }
     const productsLowered = await PriceHistory.findAll(
       {
         where: {
-          changePercentage: {
-            [Op.lt]: 1
+          changePercentage: { // Only show elements with a greater old cost than 90 and more than 10 % change
+            [Op.lt]: .9
+          },
+          oldPrice: {
+            [Op.gt]: 90
           }
         },
         include: [
@@ -74,7 +76,7 @@ const getPriceChangesRaise = async (req, res) => {
       {
         where: {
           changePercentage: {
-            [Op.gt]: 1
+            [Op.gt]: 1.1
           }
         },
         include: [
