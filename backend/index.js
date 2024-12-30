@@ -16,8 +16,9 @@ async function init() {
 }
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://frontend:5173'], // Allow requests from localhost:3000 (your frontend)
-  methods: ['GET', 'POST'], // Allow GET and POST requests
+  //origin: ['http://localhost:5173', 'http://frontend:5173', 'http://192.168.*.*:5173'],
+  origin: '*',
+  methods: ['GET', 'POST'],
 };
 
 init();
@@ -27,6 +28,6 @@ app.use(cors(corsOptions));
 app.use('/api/update', updateRoutes)
 app.use('/api/get', fetchRoutes)
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

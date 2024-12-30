@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const LoweredComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
   const location = useLocation();
-  const [sort, setSort] = useState("placeholder");
+  const [sort, setSort] = useState("alphabetical");
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
 
   const getData = async () => {
@@ -18,6 +18,17 @@ const LoweredComponent = () => {
       console.error(error);
     }
     console.log(data)
+  }
+
+  const sortingOptions = [
+    { label: "Alfabetiskt", value: "alphabetical" },
+    { label: "Kategori", value: "category" },
+    { label: "Lägsta pris", value: "priceabs" },
+    { label: "Största procentuella minskning", value: "percentage" },
+  ];
+
+  const handleSortChange = (newSort: string) => {
+    setSort(newSort)
   }
 
   useEffect(() => {
@@ -34,8 +45,28 @@ const LoweredComponent = () => {
   }, [sort]);
 
   return (
-    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen flex ">
+    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen flex flex-col">
       <div className={`rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-5/6 w-2/3 m-auto flex flex-col justify-around items-center`} >
+        <div className="w-full flex justify-between items-center px-6 py-2 bg-navy text-baby rounded-xl">
+          <h2 className="text-xl font-bold">Prissänkningar</h2>
+          <div className="flex items-center">
+            <label htmlFor="sort" className="mr-2">
+              Sortering
+            </label>
+            <select
+              id="sort"
+              className="px-4 py-2 border rounded-md bg-white text-grotto"
+              value={sort}
+              onChange={(e) => handleSortChange(e.target.value)}
+            >
+              {sortingOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <ul className="overflow-auto w-full py-2 divide-y divide-navy">
           {data.length > 0 ? (
             data.map((object, index) => (

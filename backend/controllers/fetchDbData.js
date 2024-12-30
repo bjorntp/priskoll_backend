@@ -25,7 +25,7 @@ const getPriceChangesLower = async (req, res) => {
     let { sort } = req.query;
     let order = [["newPrice", "ASC"]]
     if (sort === "priceabs") {
-      order = [[sequelize.literal("oldPrice - newPrice"), "DESC"]]
+      order = [["newPrice", "ASC"]]
     } else if (sort === "percentage") {
       order = [["changePercentage", "ASC"]]
     } else if (sort === "alphabetical") {
