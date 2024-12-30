@@ -15,7 +15,7 @@ const getApk = async (req, res) => {
       return res.status(404).json({ message: 'No products found' })
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 }
@@ -53,7 +53,7 @@ const getPriceChangesLower = async (req, res) => {
     )
     return res.status(200).json(productsLowered)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error;
   }
 }
@@ -61,7 +61,6 @@ const getPriceChangesLower = async (req, res) => {
 const getPriceChangesRaise = async (req, res) => {
   try {
     let { sort } = req.query;
-    console.log(sort);
     let order = [["newPrice", "DESC"]]
     if (sort === "priceabs") {
       order = [[sequelize.literal("oldPrice - newPrice"), "ASC"]]
@@ -89,7 +88,7 @@ const getPriceChangesRaise = async (req, res) => {
     )
     return res.status(200).json(productsLowered)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw error;
   }
 }
