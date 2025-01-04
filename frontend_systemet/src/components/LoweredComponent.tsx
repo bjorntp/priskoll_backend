@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PriceHistory } from "../types/PriceHistory";
 import { useLocation } from "react-router-dom";
+import reload from '../assets/reload.png'
 
 const LoweredComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
@@ -10,7 +11,7 @@ const LoweredComponent = () => {
 
   const getData = async () => {
     try {
-      await fetch(`http://192.168.10.6:3001/api/get/lowered?sort=${sort}`)
+      await fetch(`http://192.168.10.116:3001/api/get/lowered?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
       console.log(data)
@@ -45,12 +46,12 @@ const LoweredComponent = () => {
   }, [sort]);
 
   return (
-    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen flex flex-col">
-      <div className={`rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-5/6 w-2/3 m-auto flex flex-col justify-around items-center`} >
-        <div className="w-full flex justify-between items-center px-6 py-2 bg-navy text-baby rounded-xl">
+    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen sm:flex sm:flex-col">
+      <div className={`sm:rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-full w-full sm:h-5/6 sm:w-2/3 m-auto flex flex-col justify-around items-center`} >
+        <div className="sticky top-0 z-10 w-full flex flex-col sm:flex-row justify-between items-center px-6 py-2 bg-navy text-baby sm:rounded-xl">
           <h2 className="text-xl font-bold">Prissänkningar</h2>
-          <div className="flex items-center">
-            <label htmlFor="sort" className="mr-2">
+          <div className="flex flex-col sm:flex-row items-center pb-3 sm:pb-0">
+            <label htmlFor="sort" className="invisible sm:visible mr-2">
               Sortering
             </label>
             <select
@@ -71,7 +72,7 @@ const LoweredComponent = () => {
           {data.length > 0 ? (
             data.map((object, index) => (
               <li key={index} className="">
-                <div className="p-2 px-6 grid grid-cols-6 justify-between text-baby" onClick={() => {
+                <div className="p-2 px-6 sm:grid sm:grid-cols-6 text-baby" onClick={() => {
                   if (expandIndex === index) {
                     setExpandIndex(null);
                   } else {
@@ -79,10 +80,10 @@ const LoweredComponent = () => {
                   }
                 }}>
                   <p>{object.Product.productNameBold}</p>
-                  <p className="col-span-2">{object.Product.productNameThin}</p>
+                  <p className="sm:col-span-2">{object.Product.productNameThin}</p>
                   <p className="">{object.Product.categoryLevel2}</p>
-                  <p className="text-end line-through text-red">{object.oldPrices[0].oldPrice}</p>
-                  <p className="text-end col-start-6">{object.Product.price}</p>
+                  <p className="sm:text-end line-through text-red">{object.oldPrices[0].oldPrice}</p>
+                  <p className="sm:text-end sm:col-start-6">{object.Product.price}</p>
                 </div>
                 {expandIndex === index &&
                   <div className="bg-baby text-grotto p-4">
@@ -101,13 +102,16 @@ const LoweredComponent = () => {
                         <strong>Druvor:</strong> {object.Product.grapes.join(", ")}
                       </p>
                     )}
+                    <p><strong>Prissänkning funnen: </strong>{object.updatedAt?.split("T")[0].toString()}</p>
                     <p><a target="_blank" href={`https://www.systembolaget.se/produkt/${object.Product.categoryLevel1}/${object.Product.productNumber}`}>Sida hos Systembolaget</a></p>
                   </div>
                 }
               </li>
             ))
           ) : (
-            <p className="mx-auto ">Loading ..</p>
+            <div className="h-full w-full m-auto">
+              <img className='text-navy w-32 h-32 m-auto animate-spin' src={reload} alt="Loading" />
+            </div>
           )}
         </ul>
       </div>

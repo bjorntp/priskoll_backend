@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Product } from "../types/Product";
-import { Link } from "react-router-dom";
+import reload from '../assets/reload.png'
 
 const ApkComponent = () => {
   const [data, setData] = useState<Product[]>([]);
 
   const getData = async () => {
     try {
-      await fetch('http://localhost:3001/api/get/apk')
+      await fetch('http://192.168.10.116:3001/api/get/apk')
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {
@@ -20,8 +20,8 @@ const ApkComponent = () => {
   }, [])
 
   return (
-    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen flex ">
-      <div className={`rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-5/6 w-2/3 m-auto flex flex-col justify-around items-center`} >
+    <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen flex">
+      <div className={`sm:rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-full w-full sm:h-5/6 sm:w-2/3 m-auto flex flex-col justify-around items-center`} >
         <ul className="overflow-auto w-full py-2 divide-y divide-navy">
           {data.length > 0 ? (
             data.map((drink, index) => (
@@ -35,7 +35,9 @@ const ApkComponent = () => {
               </li>
             ))
           ) : (
-            <p className="mx-auto animate-spin">Loading ..</p>
+            <div className="h-full w-full m-auto">
+              <img className='text-navy w-32 h-32 m-auto animate-spin' src={reload} alt="Loading" />
+            </div>
           )}
         </ul>
       </div>
