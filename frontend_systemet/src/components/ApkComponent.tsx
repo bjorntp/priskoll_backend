@@ -13,7 +13,6 @@ const ApkComponent = () => {
     } catch (error) {
       console.error(error);
     }
-    console.log(data)
   }
   useEffect(() => {
     getData();

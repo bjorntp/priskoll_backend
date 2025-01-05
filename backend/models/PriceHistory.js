@@ -7,10 +7,6 @@ const PriceHistory = sequelize.define('PriceHistory', {
     allowNull: false,
     unique: true,
   },
-  oldPrices: {
-    type: DataTypes.JSON,
-    defaultValue: [],
-  },
   oldPrice: {
     type: DataTypes.FLOAT,
     allowNull: false,

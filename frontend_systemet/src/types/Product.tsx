@@ -14,9 +14,9 @@ export type Product = {
   customCategoryTitle?: string;
   dishPoints?: number;
   ethicalLabel?: string;
-  grapes?: any; // Replace with a more specific type if the JSON structure is known
-  imageModules?: any; // Replace with a specific type if known
-  images?: any; // Replace with a specific type if known
+  grapes?: any;
+  imageModules?: any;
+  images?: any;
   isBsAssortment?: boolean;
   isClimateSmartPackaging?: boolean;
   isCompletelyOutOfStock?: boolean;

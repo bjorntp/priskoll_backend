@@ -12,7 +12,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   query: {
     timeout: 3600000
   },
-  logging: false
 });
 
 module.exports = sequelize;

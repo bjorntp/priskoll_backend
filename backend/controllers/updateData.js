@@ -1,32 +1,44 @@
 const PriceHistory = require('../models/PriceHistory');
 const Product = require('../models/Product');
 const fetchProductData = require('./fetchProductData');
+const OldPrices = require('../models/OldPrices')
 
 const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
   if (dbProduct) {
     const percentage = element.price / dbProduct.price;
+    console.log("hej")
+    console.log(dbProduct !== element.price)
     if (dbProduct.price !== element.price) {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
+
       if (history) {
-        history.oldPrices = [{ oldPrice: history.newPrice, newPrice: element.price, updatedAt: new Date() }, ...history.oldPrices]
+        await OldPrices.create({
+          oldPrice: history.newPrice,
+          newPrice: element.price,
+          updatedAt: new Date(),
+          priceHistoryId: history.id,
+        });
         history.oldPrice = history.newPrice;
         history.newPrice = element.price;
         history.changePercentage = percentage;
         await history.save();
       } else {
-        await PriceHistory.create({
+        const newHistory = await PriceHistory.create({
           productId: element.productId,
-          oldPrices: [
-            { oldPrice: dbProduct.price, newPrice: element.price, updatedAt: new Date() }
-          ],
           oldPrice: dbProduct.price,
           newPrice: element.price,
           changePercentage: percentage,
         });
+        await OldPrices.create({
+          oldPrice: dbProduct.price,
+          newPrice: element.price,
+          updatedAt: new Date(),
+          priceHistoryId: newHistory.id,
+        });
       }
       await dbProduct.update(element);
-      console.log("Edited: " + element.productId)
+      console.log("Edited: " + element.productId);
     }
     return null;
   } else {

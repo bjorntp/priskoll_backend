@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require('../config/db');
 const PriceHistory = require('./PriceHistory')
+const OldPrices = require('./OldPrices')
 
 const Product = sequelize.define('Product', {
   alcoholPercentage: { type: DataTypes.FLOAT, allowNull: true },
@@ -82,6 +83,14 @@ Product.hasMany(PriceHistory, {
 PriceHistory.belongsTo(Product, {
   foreignKey: 'productId',
   targetKey: 'productId',
+});
+
+PriceHistory.hasMany(OldPrices, {
+  foreignKey: 'priceHistoryId',
+});
+
+OldPrices.belongsTo(PriceHistory, {
+  foreignKey: 'priceHistoryId',
 });
 
 module.exports = Product;

@@ -14,11 +14,9 @@ const RaisedComponent = () => {
       await fetch(`http://localhost:3001/api/get/raised?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
-      console.log(data)
     } catch (error) {
       console.error(error);
     }
-    console.log(data)
   }
 
   const sortingOptions = [
@@ -36,7 +34,6 @@ const RaisedComponent = () => {
     const queryParams = new URLSearchParams(location.search);
     const sortParam = queryParams.get("sort") ?? "price";
     setSort(sortParam);
-    console.log("Sort frontend: ", sortParam);
   }, [location]);
 
   useEffect(() => {
@@ -82,7 +79,7 @@ const RaisedComponent = () => {
                   <p>{object.Product.productNameBold}</p>
                   <p className="sm:col-span-2">{object.Product.productNameThin}</p>
                   <p className="">{object.Product.categoryLevel2}</p>
-                  <p className="sm:text-end line-through text-red">{object.oldPrices[0].oldPrice}</p>
+                  <p className="sm:text-end line-through text-red">{object.OldPrices[0].oldPrice}</p>
                   <p className="sm:text-end sm:col-start-6">{object.Product.price}</p>
                 </div>
                 {expandIndex === index &&
@@ -102,7 +99,6 @@ const RaisedComponent = () => {
                         <strong>Druvor:</strong> {object.Product.grapes.join(", ")}
                       </p>
                     )}
-                    <p><strong>Prissänkning funnen: </strong>{object.updatedAt?.split("T")[0].toString()}</p>
                     <p><a target="_blank" href={`https://www.systembolaget.se/produkt/${object.Product.categoryLevel1}/${object.Product.productNumber}`}>Sida hos Systembolaget</a></p>
                   </div>
                 }

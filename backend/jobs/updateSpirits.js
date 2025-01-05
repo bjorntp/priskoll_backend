@@ -7,7 +7,8 @@ const getSpirits = async (req, res) => {
     await updateData(sprit);
     return res.status(201).send('Updated spirits')
   } catch (error) {
-    return res.status(500).send('Internal server error: ', error)
+    console.log('Error: ', error);
+    return res.status(500).send(`Internal server error: ${error.message}`)
   }
 }
 
