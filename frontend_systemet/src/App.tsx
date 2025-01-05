@@ -3,6 +3,7 @@ import HomeComponent from "./components/HomeComponent";
 import ApkComponent from "./components/ApkComponent";
 import LoweredComponent from "./components/LoweredComponent";
 import RaisedComponent from "./components/RaisedComponent";
+import AboutComponent from "./components/About";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/page/apk" element={<ApkComponent />} />
         <Route path="/page/lowered" element={<LoweredComponent />} />
         <Route path="/page/raised" element={<RaisedComponent />} />
+        <Route path="/page/about" element={<AboutComponent />} />
       </Routes>
     </Router>
   );
