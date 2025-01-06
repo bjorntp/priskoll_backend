@@ -11,7 +11,7 @@ const LoweredComponent = () => {
 
   const getData = async () => {
     try {
-      await fetch(`http://192.168.10.116:3001/api/get/lowered?sort=${sort}`)
+      await fetch(`https://api.bjorntp.com/api/get/lowered?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {

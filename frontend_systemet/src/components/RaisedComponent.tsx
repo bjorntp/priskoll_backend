@@ -11,7 +11,7 @@ const RaisedComponent = () => {
 
   const getData = async () => {
     try {
-      await fetch(`http://localhost:3001/api/get/raised?sort=${sort}`)
+      await fetch(`https://api.bjorntp.com/api/get/raised?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {

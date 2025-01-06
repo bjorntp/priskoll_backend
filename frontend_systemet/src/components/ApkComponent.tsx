@@ -7,7 +7,7 @@ const ApkComponent = () => {
 
   const getData = async () => {
     try {
-      await fetch('http://192.168.10.116:3001/api/get/apk')
+      await fetch('https://api.bjorntp.com/api/get/apk')
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {
@@ -45,4 +45,3 @@ const ApkComponent = () => {
 }
 
 export default ApkComponent;
-//<p>APK: {drink.apk}</p>
