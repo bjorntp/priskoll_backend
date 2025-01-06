@@ -30,7 +30,8 @@ const getDates = async (req, res) => {
       group: [sequelize.fn('DATE', sequelize.col('updatedAt'))],
       raw: true,
     })
-    return res.status(200).json(uniqueUpdatedAt)
+    const dates = uniqueUpdatedAt.map(row => row.updatedAt);
+    return res.status(200).json(dates)
   } catch (error) {
     console.log(error);
     throw error;
