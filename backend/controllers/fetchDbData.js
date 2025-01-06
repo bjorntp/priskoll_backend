@@ -21,6 +21,21 @@ const getApk = async (req, res) => {
   }
 }
 
+const getDates = async (req, res) => {
+  try {
+    const uniqueUpdatedAt = await OldPrices.findAll({
+      attributes: [
+        [sequelize.fn('DISTINCT', sequelize.col('updateAt')), 'updatedAt']
+      ],
+      raw: true,
+    })
+    return res.status(200).json(uniqueUpdatedAt)
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 const getPriceChangesLower = async (req, res) => {
   try {
     let { sort } = req.query;
@@ -105,5 +120,6 @@ const getPriceChangesRaise = async (req, res) => {
 module.exports = {
   getApk,
   getPriceChangesLower,
-  getPriceChangesRaise
+  getPriceChangesRaise,
+  getDates
 }
