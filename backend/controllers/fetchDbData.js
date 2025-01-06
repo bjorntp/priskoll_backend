@@ -25,7 +25,7 @@ const getDates = async (req, res) => {
   try {
     const uniqueUpdatedAt = await OldPrices.findAll({
       attributes: [
-        [sequelize.fn('DISTINCT', sequelize.col('updateAt')), 'updatedAt']
+        [sequelize.fn('DISTINCT', sequelize.col('updatedAt')), 'updatedAt']
       ],
       raw: true,
     })
