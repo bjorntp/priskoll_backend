@@ -3,6 +3,8 @@ En webbapplikation som kan hålla koll på produkter som ändrats i pris. Inte g
 
 Skapad för eget bruk då Systembolaget inte presenterar när de sänker priset på produkter och lite övervakning kan göra enklare att fynda bra viner som går ner i pris.
 
+För tillfället finns en fungerande version av sidan på https://bjorntp.com men kommer flyttas till en subdomän snart.
+
 Använder:
 <ul>
 <li>Docker</li>
@@ -21,5 +23,5 @@ Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-ap
   <li>Hantering av borttagna produkter</li>
   <li>Utöka todo-lista</li>
   <li>Mobilanpassning</li>
-  <li>Publicera!</li>
+  <li>Skapa ett bättre sätt att publicera sidan, lite mycket hårdkodning just nu</li>
 </ul>
