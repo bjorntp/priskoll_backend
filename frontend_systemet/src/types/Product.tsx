@@ -47,25 +47,25 @@ export type Product = {
   packagingLevel1?: string;
   price?: number;
   producerName?: string;
-  productId?: string; // If primary key, make required
-  productLaunchDate?: string; // Use `Date` if working with parsed Date objects
+  productId?: string;
+  productLaunchDate?: string;
   productNameBold?: string;
   productNameThin?: string;
   productNumber?: string;
   productNumberShort?: string;
   recycleFee?: number;
   restrictedParcelQuantity?: number;
-  sellStartTime?: string; // Use `Date` or `Time` object if parsed
+  sellStartTime?: string;
   sugarContent?: number;
   sugarContentGramPer100ml?: number;
   supplierName?: string;
   taste?: string;
-  tasteClocks?: any; // Replace with specific type if JSON structure is known
-  tasteSymbols?: any; // Replace with specific type if JSON structure is known
+  tasteClocks?: any;
+  tasteSymbols?: any;
   usage?: string;
   vintage?: string;
   volume?: number;
   volumeText?: string;
-  createdAt?: string; // Sequelize timestamps
-  updatedAt?: string; // Sequelize timestamps
+  createdAt?: string;
+  updatedAt?: string;
 };
