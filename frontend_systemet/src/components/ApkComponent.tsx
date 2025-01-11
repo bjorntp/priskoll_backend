@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Product } from "../types/Product";
 import reload from '../assets/reload.png'
+import bib from '../assets/bib.svg'
 
 const ApkComponent = () => {
   const [data, setData] = useState<Product[]>([]);
@@ -27,8 +28,17 @@ const ApkComponent = () => {
               <li key={index} className="">
                 <a target="_blank" href={`https://www.systembolaget.se/produkt/${drink.categoryLevel1}/${drink.productNumber}`}>
                   <div className="p-2 px-6 flex justify-between text-baby">
-                    <p>{drink.productNameBold}</p>
-                    <p>{drink.apk}</p>
+                    {drink.bottleText === "Box" ? (
+                      <div className="flex items-center">
+                        <p>{drink.productNameBold}</p>
+                        <img className="h-12 w-12 pl-2" src={bib} alt="Påse i låda" />
+                      </div>
+                    ) : (
+                      <p>{drink.productNameBold}</p>
+                    )}
+                    <div className="flex items-center">
+                      <p>{drink.apk}</p>
+                    </div>
                   </div>
                 </a>
               </li>

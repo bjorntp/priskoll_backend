@@ -1,13 +1,3 @@
-const PriceHistory = require('../models/PriceHistory');
-const Product = require('../models/Product');
-const fetchProductData = require('./fetchProductData');
-const OldPrices = require('../models/OldPrices')
-
-const addData = async (element) => {
-  const dbProduct = await Product.findOne({ where: { productId: element.productId } });
-  if (dbProduct) {
-    const percentage = element.price / dbProduct.price;
-    console.log("hej")
     console.log(dbProduct !== element.price)
     if (dbProduct.price !== element.price) {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
@@ -30,39 +20,3 @@ const addData = async (element) => {
           newPrice: element.price,
           changePercentage: percentage,
         });
-        await OldPrices.create({
-          oldPrice: dbProduct.price,
-          newPrice: element.price,
-          updatedAt: new Date(),
-          priceHistoryId: newHistory.id,
-        });
-      }
-      await dbProduct.update(element);
-      console.log("Edited: " + element.productId);
-    }
-    return null;
-  } else {
-    const apk = (element.volume * (element.alcoholPercentage / 100)) / element.price;
-    element.apk = apk;
-    console.log("Added new: " + element.productId)
-    return element;
-  }
-};
-
-
-const updateData = async (args) => {
-  let executablePath = './systembolagetapi/sysapi'
-  let parsedData = await fetchProductData(executablePath, args);
-  let newElementsArray = [];
-  for (const element of parsedData) {
-    let x = await addData(element);
-    if (x) {
-      newElementsArray.push(x)
-    }
-  }
-  Product.bulkCreate(newElementsArray, {
-    ignoreDuplicates: true,
-  });
-}
-
-module.exports = updateData; 
