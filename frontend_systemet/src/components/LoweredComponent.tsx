@@ -7,18 +7,50 @@ const LoweredComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
   const location = useLocation();
   const [sort, setSort] = useState("alphabetical");
+  const [age, setAge] = useState("threemonth")
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
   const [orderFilter, setOrderFilter] = useState(false);
+  const month = 2678400000;
+  const now = new Date();
 
   const getData = async () => {
     try {
       await fetch(`https://api.bjorntp.com/api/get/lowered?sort=${sort}`)
         .then(response => response.json())
-        .then(json => setData(json));
+        .then(jsondata => {
+          const cutDate = cutoffDate();
+          console.log(cutDate)
+          const filteredData = jsondata.filter((priceHistory: PriceHistory) => {
+            const latestUpdatedAt = new Date(priceHistory.OldPrices[0].updatedAt);
+            return latestUpdatedAt > cutDate;
+          })
+          console.log(filteredData)
+          setData(filteredData);
+        })
     } catch (error) {
       console.error(error);
     }
   }
+  const dateOptions = [
+    { label: "3 Månader", value: "threemonth" },
+    { label: "6 Månader", value: "sixmonth" },
+    { label: "12 Månader", value: "twelvemonth" },
+    { label: "Från början", value: "forever" },
+  ];
+
+  const cutoffDate = () => {
+    switch (age) {
+      case "threemonth":
+        return new Date(Date.now() - month * 3);
+      case "sixmonth":
+        return new Date(Date.now() - month * 6);
+      case "twelvemonth":
+        return new Date(Date.now() - month * 12);
+      default:
+        return new Date(0);
+    }
+  }
+
 
   const sortingOptions = [
     { label: "Alfabetiskt", value: "alphabetical" },
@@ -27,8 +59,12 @@ const LoweredComponent = () => {
     { label: "Största procentuella minskning", value: "percentage" },
   ];
 
+  const handleAgeChange = (newAge: string) => {
+    setAge(newAge);
+  }
+
   const handleSortChange = (newSort: string) => {
-    setSort(newSort)
+    setSort(newSort);
   }
 
   useEffect(() => {
@@ -41,7 +77,7 @@ const LoweredComponent = () => {
     if (sort !== "placeholder") {
       getData();
     }
-  }, [sort]);
+  }, [sort, age]);
 
   const handleCheckBoxChange = () => {
     setOrderFilter(!orderFilter);
@@ -51,9 +87,23 @@ const LoweredComponent = () => {
     <div className="bg-gradient-to-br from-baby via-sky-300 to-grotto h-screen w-screen md:flex md:flex-col">
       <div className={`md:rounded-xl bg-grotto shadow-lg transform transition-all duration-1000 h-full w-full md:h-5/6 md:w-2/3 m-auto flex flex-col justify-around items-center`} >
         <div className="sticky top-0 z-10 w-full items-center px-6 py-2 bg-navy text-baby md:rounded-xl">
-          <div className="grid grid-cols-6 grid-rows-3 md:grid-rows-2 items-center">
-            <h2 className="text-xl text-center font-bold row-start-1 col-start-1 col-span-6">Prissänkningar</h2>
-            <div className="py-1 row-start-2 col-start-1 col-span-6 md:col-span-3 flex flex-col md:flex-row items-center justify-center">
+          <div className="grid grid-cols-6 grid-rows-4 md:grid-rows-2 items-center">
+            <h2 className="text-xl text-center font-bold row-start-1 col-start-1 col-span-12">Prissänkningar</h2>
+            <div className="py-1 row-start-2 md:row-start-2 col-start-1 col-span-6 md:col-span-3 flex flex-col md:flex-row items-center justify-center">
+              <select
+                id="age"
+                className="px-4 py-2 border rounded-md bg-white text-grotto"
+                value={age}
+                onChange={(e) => handleAgeChange(e.target.value)}
+              >
+                {dateOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="py-1 row-start-3 md:row-start-2 col-start-1 col-span-6 md:col-span-3 flex flex-col md:flex-row items-center justify-center">
               <select
                 id="sort"
                 className="px-4 py-2 border rounded-md bg-white text-grotto"
@@ -67,7 +117,7 @@ const LoweredComponent = () => {
                 ))}
               </select>
             </div>
-            <div className="row-start-3 md:row-start-2 col-start-1 md:col-start-1 text-center md:col-span-3 col-span-6 justify-center items-center">
+            <div className="row-start-4 md:row-start-2 col-start-1 md:col-start-1 text-center md:col-span-3 col-span-6 justify-center items-center">
               <label htmlFor="order" className="px-2">
                 Inkludera beställningsvaror (varierande leveranstid)
               </label>
