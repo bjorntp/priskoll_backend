@@ -11,7 +11,6 @@ const LoweredComponent = () => {
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
   const [orderFilter, setOrderFilter] = useState(false);
   const month = 2678400000;
-  const now = new Date();
 
   const getData = async () => {
     try {
