@@ -5,7 +5,7 @@ const getSpirits = async (req, res) => {
   try {
     let sprit = ['assortment', '--category', "Sprit"];
     await updateData(sprit);
-    return res.status(201).send('Updated spirits')
+    return res.status(201).send('Updated spirit data')
   } catch (error) {
     console.log('Error: ', error);
     return res.status(500).send(`Internal server error: ${error.message}`)

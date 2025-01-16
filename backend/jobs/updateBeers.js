@@ -5,7 +5,7 @@ const getBeers = async (req, res) => {
   try {
     let beer = ['assortment', '--category', "Öl"];
     await updateData(beer);
-    return res.status(201).send('Updated beers')
+    return res.status(201).send('Updated beer data')
   } catch (error) {
     return res.status(500).send('Internal server error: ', error)
   }

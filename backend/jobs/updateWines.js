@@ -25,7 +25,7 @@ const getWines = async (req, res) => {
     await updateData(argsApert);
     let argsFlera = ['assortment', '--category', "Vin", '--subcategory', 'drycker av flera typer'];
     await updateData(argsFlera);
-    return res.status(201).send()
+    return res.status(201).send("Updated wine data")
   } catch (error) {
     return res.status(500).send(error)
   }
