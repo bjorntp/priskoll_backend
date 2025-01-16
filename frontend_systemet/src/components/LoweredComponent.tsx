@@ -9,7 +9,7 @@ const LoweredComponent = () => {
   const [sort, setSort] = useState("alphabetical");
   const [age, setAge] = useState("threemonth")
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
-  const [orderFilter, setOrderFilter] = useState(false);
+  const [orderFilter, setOrderFilter] = useState(true);
   const month = 2678400000;
 
   const getData = async () => {
@@ -68,14 +68,12 @@ const LoweredComponent = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const sortParam = queryParams.get("sort") ?? "price";
+    const sortParam = queryParams.get("sort") ?? "alphabetical";
     setSort(sortParam);
   }, [location]);
 
   useEffect(() => {
-    if (sort !== "placeholder") {
-      getData();
-    }
+    getData();
   }, [sort, age]);
 
   const handleCheckBoxChange = () => {
