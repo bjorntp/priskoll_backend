@@ -43,4 +43,21 @@ const addData = async (element) => {
     element.apk = apk;
     return element;
   }
-};
+}
+
+const updateData = async (args) => {
+  let executablePath = './systembolagetapi/sysapi'
+  let parsedData = await fetchProductData(executablePath, args);
+  let newElementsArray = [];
+  for (const element of parsedData) {
+    let x = await addData(element);
+    if (x) {
+      newElementsArray.push(x)
+    }
+  }
+  Product.bulkCreate(newElementsArray, {
+    ignoreDuplicates: true,
+  });
+}
+
+module.exports = updateData;;
