@@ -48,8 +48,10 @@ const getPriceChangesLower = async (req, res) => {
       order = [["changePercentage", "ASC"]]
     } else if (sort === "alphabetical") {
       order = [[{ model: Product }, 'productNameBold', "ASC"]]
-    } else if (sort == "category") {
+    } else if (sort === "category") {
       order = [[{ model: Product }, 'categoryLevel2']]
+    } else if (sort === "date") {
+      order = [[{ model: OldPrices }, "updatedAt", "ASC"]];
     }
     const productsLowered = await PriceHistory.findAll(
       {
