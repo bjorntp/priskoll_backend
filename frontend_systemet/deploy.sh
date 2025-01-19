@@ -7,7 +7,9 @@ BUILD_DIR="dist"
 REPO=$(git rev-parse --show-toplevel)
 
 # Ensure we're in the frontend directory
-cd ..
+cd "$REPO/frontend_systemet"
+git add .
+git commit -m "Build files in dev"
 
 # Switch to the production branch
 git checkout $BRANCH
