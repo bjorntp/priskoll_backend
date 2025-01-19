@@ -9,9 +9,6 @@ REPO=$(git rev-parse --show-toplevel)
 # Ensure we're in the frontend directory
 cd "$REPO/frontend_systemet"
 
-# Run the build
-npm run build
-
 # Switch to the production branch
 git checkout $BRANCH
 
