@@ -7,7 +7,7 @@ BUILD_DIR="dist"
 REPO=$(git rev-parse --show-toplevel)
 
 # Ensure we're in the frontend directory
-cd "$REPO/"
+cd ..
 
 # Switch to the production branch
 git checkout $BRANCH
