@@ -12,9 +12,12 @@ cd "$REPO/frontend_systemet"
 # Switch to the production branch
 git checkout $BRANCH
 
+rm -r *
+
 # Copy built files to the branch root
-git checkout main -- frontend_systemet/dist/*
+git checkout main -- frontend_systemet/dist
 mv frontend_systemet/dist/* .
+rm -r frontend_systemet/
 
 # Add and commit the changes
 git add .
