@@ -14,6 +14,8 @@ git commit -m "Build files in dev"
 # Switch to the production branch
 git checkout $BRANCH
 
+cd ..
+
 rm -r *
 
 # Copy built files to the branch root
