@@ -11,10 +11,12 @@ const LoweredComponent = () => {
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
   const [orderFilter, setOrderFilter] = useState(true);
   const month = 2678400000;
+  const apiLink = import.meta.env.VITE_API_LINK;
 
   const getData = async () => {
     try {
-      await fetch(`https://api.bjorntp.com/api/get/lowered?sort=${sort}`)
+      await fetch(`${apiLink}get/lowered?sort=${sort}`)
+        //await fetch(`https://api.bjorntp.com/api/get/lowered?sort=${sort}`)
         .then(response => response.json())
         .then(jsondata => {
           const cutDate = cutoffDate();

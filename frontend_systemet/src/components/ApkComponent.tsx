@@ -5,10 +5,11 @@ import bib from '../assets/bib.svg'
 
 const ApkComponent = () => {
   const [data, setData] = useState<Product[]>([]);
+  const apiLink = import.meta.env.VITE_API_LINK;
 
   const getData = async () => {
     try {
-      await fetch('https://api.bjorntp.com/api/get/apk')
+      await fetch(`${apiLink}get/apk`)
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {

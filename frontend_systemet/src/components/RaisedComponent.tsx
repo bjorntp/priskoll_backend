@@ -8,10 +8,11 @@ const RaisedComponent = () => {
   const location = useLocation();
   const [sort, setSort] = useState("alphabetical");
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
+  const apiLink = import.meta.env.VITE_API_LINK;
 
   const getData = async () => {
     try {
-      await fetch(`https://api.bjorntp.com/api/get/raised?sort=${sort}`)
+      await fetch(`${apiLink}get/raised?sort=${sort}`)
         .then(response => response.json())
         .then(json => setData(json));
     } catch (error) {
