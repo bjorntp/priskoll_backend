@@ -16,12 +16,10 @@ Använder:
 Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-api)
 
 ### Todo
-<ul>
-  <li>Filter</li>
-  <li>Sortering (redan implementerat i backend</li>
-  <li>Anpassning till mindre skärmar</li>
-  <li>Hantering av borttagna produkter</li>
-  <li>Utöka todo-lista</li>
-  <li>Mobilanpassning</li>
-  <li>Skapa ett bättre sätt att publicera sidan, lite mycket hårdkodning just nu</li>
-</ul>
+- Filter
+- ~~Sortering (redan implementerat i backend)~~
+- ~~Anpassning till mindre skärmar~~
+- Hantering av borttagna produkter
+- Utöka todo-lista
+- ~~Mobilanpassning~~
+- Skapa ett bättre sätt att publicera sidan, lite mycket hårdkodning just nu
