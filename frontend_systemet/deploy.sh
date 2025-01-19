@@ -16,7 +16,8 @@ git checkout $BRANCH
 git rm -rf .
 
 # Copy built files to the branch root
-cp -r $BUILD_DIR/* $REPO/
+git checkout main -- frontend_systemet/dist/*
+mv frontend_systemet/dist/* .
 
 # Add and commit the changes
 git add .
