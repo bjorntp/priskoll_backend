@@ -12,7 +12,7 @@ git add .
 git commit -m "Build files in dev"
 
 # Switch to the production branch
-git checkout $BRANCH
+git checkout "production_frontend"
 
 cd ..
 
@@ -28,7 +28,7 @@ git add .
 git commit -m "Deploy static files"
 
 # Push to the remote branch
-git push origin $BRANCH
+git push
 
 # Return to the main branch
 git checkout main
