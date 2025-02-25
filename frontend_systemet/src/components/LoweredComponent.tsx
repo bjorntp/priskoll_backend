@@ -33,6 +33,7 @@ const LoweredComponent = () => {
     }
   }
   const dateOptions = [
+    { label: "1 Månad", value: "onemonth" },
     { label: "3 Månader", value: "threemonth" },
     { label: "6 Månader", value: "sixmonth" },
     { label: "12 Månader", value: "twelvemonth" },
@@ -41,6 +42,8 @@ const LoweredComponent = () => {
 
   const cutoffDate = () => {
     switch (age) {
+      case "onemonth":
+        return new Date(Date.now() - month * 1);
       case "threemonth":
         return new Date(Date.now() - month * 3);
       case "sixmonth":
