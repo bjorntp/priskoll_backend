@@ -35,12 +35,18 @@ const addData = async (element) => {
           priceHistoryId: newHistory.id,
         });
       }
-      await dbProduct.update(element);
     }
+    await dbProduct.update({
+      ...element,
+      lastSeen: new Date(),
+      enabled: true
+    });
     return null;
   } else {
     const apk = (element.volume * (element.alcoholPercentage / 100)) / element.price;
     element.apk = apk;
+    element.lastSeen = new Date();
+    element.enabled = true;
     return element;
   }
 }
