@@ -7,6 +7,7 @@ const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
   if (dbProduct) {
     const percentage = element.price / dbProduct.price;
+    let updated = false
     if (dbProduct.price !== element.price) {
       const history = await PriceHistory.findOne({ where: { productId: element.productId } });
 
@@ -35,10 +36,16 @@ const addData = async (element) => {
           priceHistoryId: newHistory.id,
         });
       }
+      updated = true
     }
-    element.lastSeen = new Date();
-    element.enabled = true;
-    return element;
+    if (updated || dbProduct.lastSeen !== element.lastSeen || dbProduct.enabled !== element.enabled) {
+      element.lastSeen = new Date();
+      element.enabled = true;
+      return element;
+    }
+    return null;
+
+
   } else {
     const apk = (element.volume * (element.alcoholPercentage / 100)) / element.price;
     element.apk = apk;
@@ -61,7 +68,7 @@ const updateData = async (args) => {
   if (newElementsArray.length > 0) {
     Product.bulkCreate(newElementsArray, {
       ignoreDuplicates: true,
-      updateOnDuplicate: true
+      updateOnDuplicate: ['price', 'enabled', 'lastSeen']
     });
   }
 }
