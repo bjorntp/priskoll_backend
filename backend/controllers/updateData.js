@@ -36,12 +36,9 @@ const addData = async (element) => {
         });
       }
     }
-    await dbProduct.update({
-      ...element,
-      lastSeen: new Date(),
-      enabled: true
-    });
-    return null;
+    element.lastSeen = new Date();
+    element.enabled = true;
+    return element;
   } else {
     const apk = (element.volume * (element.alcoholPercentage / 100)) / element.price;
     element.apk = apk;
@@ -61,9 +58,12 @@ const updateData = async (args) => {
       newElementsArray.push(x)
     }
   }
-  Product.bulkCreate(newElementsArray, {
-    ignoreDuplicates: true,
-  });
+  if (newElementsArray.length > 0) {
+    Product.bulkCreate(newElementsArray, {
+      ignoreDuplicates: true,
+      updateOnDuplicate: true
+    });
+  }
 }
 
 module.exports = updateData;;
