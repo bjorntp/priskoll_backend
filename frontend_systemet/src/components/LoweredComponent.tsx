@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { PriceHistory } from "../types/PriceHistory";
 import { useLocation } from "react-router-dom";
 import reload from '../assets/reload.png'
+import { Product } from "../types/Product";
 
 const LoweredComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
@@ -16,14 +17,13 @@ const LoweredComponent = () => {
   const getData = async () => {
     try {
       await fetch(`${apiLink}get/lowered?sort=${sort}`)
-        //await fetch(`https://api.bjorntp.com/api/get/lowered?sort=${sort}`)
         .then(response => response.json())
         .then(jsondata => {
           const cutDate = cutoffDate();
           console.log(cutDate)
-          const filteredData = jsondata.filter((priceHistory: PriceHistory) => {
+          const filteredData = jsondata.filter((priceHistory: PriceHistory, product: Product) => {
             const latestUpdatedAt = new Date(priceHistory.OldPrices[0].updatedAt);
-            return latestUpdatedAt > cutDate;
+            return latestUpdatedAt > cutDate && (product.enabled !== false || product.enabled !== null);
           })
           console.log(filteredData)
           setData(filteredData);
