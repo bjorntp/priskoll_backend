@@ -8,9 +8,9 @@ För tillfället finns en fungerande version av sidan på https://bjorntp.com me
 Använder:
 <ul>
 <li>Docker</li>
-<li>MySQL</li>
+<li>Postgres</li>
 <li>React</li>
-<li>Node.js</li>
+<li>Spring boot</li>
 </ul>
 
 Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-api)
@@ -19,7 +19,7 @@ Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-ap
 - Filter
 - ~~Sortering (redan implementerat i backend)~~
 - ~~Anpassning till mindre skärmar~~
-- Hantering av borttagna produkter
+- ~~Hantering av borttagna produkter~~
 - Utöka todo-lista
 - ~~Mobilanpassning~~
 - Skapa ett bättre sätt att publicera sidan, lite mycket hårdkodning just nu
