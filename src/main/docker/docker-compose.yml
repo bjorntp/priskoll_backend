@@ -1,0 +1,36 @@
+services:
+  spring-systemet:
+    container_name: spring-systemet
+    build: ../../../
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${API_PORT}:8080
+    restart: unless-stopped
+    depends_on:
+      - postgres-systemet
+
+  postgres-systemet:
+    container_name: postgres-systemet
+    image: postgres:13.22
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - db:/data/postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db:
