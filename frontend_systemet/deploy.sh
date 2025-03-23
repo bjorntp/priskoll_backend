@@ -29,7 +29,7 @@ find . -mindepth 1 ! -name '.git' ! -path './node_modules/*' -exec rm -rf {} +
 mkdir -p "$BUILD_DIR"  # Ensure directory exists before checkout
 git checkout main -- "$BUILD_DIR"
 
-if [ -d "frontend_systemet/$BUILD_DIR" ]; then
+if [ -d "$BUILD_DIR" ]; then
   mv "$BUILD_DIR"/* .
   rm -rf "$BUILD_DIR"
 else
