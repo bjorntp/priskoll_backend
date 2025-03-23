@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -x
 
 # Define variables
 BRANCH="production_frontend"
