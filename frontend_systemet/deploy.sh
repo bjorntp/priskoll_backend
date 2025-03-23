@@ -23,7 +23,7 @@ fi
 git checkout "$BRANCH"
 
 # Remove old files, but keep .git
-find . -mindepth 1 ! -name '.git' -exec rm -rf {} +
+find . -mindepth 1 ! -name '.git' ! -path './node_modules/*' -exec rm -rf {} +
 
 # Copy built files to the branch root
 mkdir -p "$BUILD_DIR"  # Ensure directory exists before checkout
