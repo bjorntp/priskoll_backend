@@ -47,7 +47,6 @@ const ApkComponent = () => {
           ) : (
             <div className="h-full w-full m-auto">
               <img className='text-navy w-32 h-32 m-auto animate-spin' src={reload} alt="Loading" />
-              <p>Deploy testing v3</p>
             </div>
           )}
         </ul>
