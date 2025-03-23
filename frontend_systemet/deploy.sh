@@ -46,3 +46,5 @@ git push
 
 # Return to the main branch
 git checkout main
+
+git push
