@@ -68,4 +68,6 @@ export type Product = {
   volumeText?: string;
   createdAt?: string;
   updatedAt?: string;
+  enabled?: boolean;
+  lastSeen?: string;
 };
