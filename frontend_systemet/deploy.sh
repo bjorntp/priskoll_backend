@@ -1,10 +1,11 @@
 #!/bin/bash
-set -x
+set -e  # Exit on error
+set -x  # Debug mode
 
 # Define variables
 BRANCH="production_frontend"
-BUILD_DIR="frontend_systemet/dist"
-BUILD_DIR_CONTENT="frontend_systemet/dist/*"
+BUILD_DIR="dist"  # Adjusted since we're already in frontend_systemet
+BUILD_DIR_CONTENT="dist/*"
 REPO=$(git rev-parse --show-toplevel)
 
 # Ensure we're in the frontend directory
@@ -25,14 +26,14 @@ git checkout "$BRANCH"
 find . -mindepth 1 ! -name '.git' -exec rm -rf {} +
 
 # Copy built files to the branch root
-mkdir -p "$BUILD_DIR" # Ensure directory exists before checkout
-git checkout main -- "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"  # Ensure directory exists before checkout
+git checkout main -- "frontend_systemet/$BUILD_DIR"
 
-if [ -d "$BUILD_DIR" ]; then
-  mv "$BUILD_DIR_CONTENT" .
-  rm -rf "$BUILD_DIR"
+if [ -d "frontend_systemet/$BUILD_DIR" ]; then
+  mv "frontend_systemet/$BUILD_DIR"/* .
+  rm -rf "frontend_systemet/$BUILD_DIR"
 else
-  echo "Error: '$BUILD_DIR' does not exist after checkout."
+  echo "Error: 'frontend_systemet/$BUILD_DIR' does not exist after checkout."
   exit 1
 fi
 
