@@ -17,8 +17,8 @@ git checkout "production_frontend"
 rm -r *
 
 # Copy built files to the branch root
-git checkout main -- $(BUILD_DIR)
-mv $(BUILD_DIR)/* .
+git checkout main -- $BUILD_DIR
+mv $BUILD_DIR/* .
 rm -r frontend_systemet/
 
 # Add and commit the changes
