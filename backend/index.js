@@ -28,6 +28,8 @@ app.use(cors(corsOptions));
 app.use('/api/update', updateRoutes)
 app.use('/api/get', fetchRoutes)
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+server.timeout = 600000;
