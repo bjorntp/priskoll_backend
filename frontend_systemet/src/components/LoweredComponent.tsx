@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { PriceHistory } from "../types/PriceHistory";
 import { useLocation } from "react-router-dom";
 import reload from '../assets/reload.png'
-import { Product } from "../types/Product";
 
 const LoweredComponent = () => {
   const [data, setData] = useState<PriceHistory[]>([]);
@@ -11,21 +10,23 @@ const LoweredComponent = () => {
   const [age, setAge] = useState("threemonth")
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
   const [orderFilter, setOrderFilter] = useState(true);
-  const month = 2678400000;
-  const apiLink = import.meta.env.VITE_API_LINK;
+  const MONTH = 2678400000;
+  const APILINK = import.meta.env.VITE_API_LINK;
 
   const getData = async () => {
     try {
-      await fetch(`${apiLink}get/lowered?sort=${sort}`)
+      await fetch(`${APILINK}get/lowered?sort=${sort}`)
         .then(response => response.json())
         .then(jsondata => {
           const cutDate = cutoffDate();
-          console.log(cutDate)
-          const filteredData = jsondata.filter((priceHistory: PriceHistory, product: Product) => {
-            const latestUpdatedAt = new Date(priceHistory.OldPrices[0].updatedAt);
-            return latestUpdatedAt > cutDate && (product.enabled !== false || product.enabled !== null);
+          const filteredData = jsondata.filter((item: any) => {
+            const product = item.Product;
+            const latestUpdatedAt = new Date(item.OldPrices[0].updatedAt);
+
+            return latestUpdatedAt > cutDate &&
+              (product.enabled !== false) &&
+              (!product.lastSeen || new Date(product.lastSeen).getTime() >= (Date.now() - MONTH));
           })
-          console.log(filteredData)
           setData(filteredData);
         })
     } catch (error) {
@@ -42,11 +43,11 @@ const LoweredComponent = () => {
   const cutoffDate = () => {
     switch (age) {
       case "threemonth":
-        return new Date(Date.now() - month * 3);
+        return new Date(Date.now() - MONTH * 3);
       case "sixmonth":
-        return new Date(Date.now() - month * 6);
+        return new Date(Date.now() - MONTH * 6);
       case "twelvemonth":
-        return new Date(Date.now() - month * 12);
+        return new Date(Date.now() - MONTH * 12);
       default:
         return new Date(0);
     }
