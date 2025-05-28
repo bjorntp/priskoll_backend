@@ -11,6 +11,7 @@ const LoweredComponent = () => {
   const [expandIndex, setExpandIndex] = useState<number | null>(null);
   const [orderFilter, setOrderFilter] = useState(true);
   const MONTH = 2678400000;
+  const WEEK = 86400000;
   const APILINK = import.meta.env.VITE_API_LINK;
 
   const getData = async () => {
@@ -25,7 +26,7 @@ const LoweredComponent = () => {
 
             return latestUpdatedAt > cutDate &&
               (product.enabled !== false) &&
-              (!product.lastSeen || new Date(product.lastSeen).getTime() >= (Date.now() - MONTH));
+              (!product.lastSeen || new Date(product.lastSeen).getTime() >= (Date.now() - WEEK));
           })
           setData(filteredData);
         })
