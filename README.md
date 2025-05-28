@@ -19,7 +19,7 @@ Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-ap
 - Filter
 - ~~Sortering (redan implementerat i backend)~~
 - ~~Anpassning till mindre skärmar~~
-- Hantering av borttagna produkter
+- ~~Hantering av borttagna produkter~~
 - Utöka todo-lista
 - ~~Mobilanpassning~~
 - Skapa ett bättre sätt att publicera sidan, lite mycket hårdkodning just nu
