@@ -1,8 +1,4 @@
-const Product = require('../models/Product')
-
-const setDisabled = async (element) => {
-
-}
+import { Product } from '../models/Product';
 
 const checkOld = async () => {
   const products = await Product.findAll({
@@ -23,4 +19,6 @@ const checkOld = async () => {
     }
   }
 }
-}
+
+
+export { checkOld };

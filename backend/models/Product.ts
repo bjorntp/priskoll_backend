@@ -1,9 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require('../config/db');
-const PriceHistory = require('./PriceHistory')
-const OldPrices = require('./OldPrices')
+import { DataTypes } from "sequelize";
+import { sequelize } from '../config/db';
+import { PriceHistory } from './PriceHistory';
+import { OldPrices } from './OldPrices';
 
-const Product = sequelize.define('Product', {
+export const Product = sequelize.define('Product', {
   alcoholPercentage: { type: DataTypes.FLOAT, allowNull: true },
   apk: { type: DataTypes.FLOAT, allowNull: true },
   assortment: { type: DataTypes.STRING, allowNull: true },
@@ -94,5 +94,3 @@ PriceHistory.hasMany(OldPrices, {
 OldPrices.belongsTo(PriceHistory, {
   foreignKey: 'priceHistoryId',
 });
-
-module.exports = Product;

@@ -1,4 +1,4 @@
-const updateData = require('../controllers/updateData')
+import { updateData } from '../controllers/updateData';
 
 const getSpirits = async (req, res) => {
   console.log("Updating spirit data")
@@ -12,4 +12,4 @@ const getSpirits = async (req, res) => {
   }
 }
 
-module.exports = getSpirits;
+export { getSpirits };

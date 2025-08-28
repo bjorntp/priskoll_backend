@@ -1,7 +1,7 @@
-const PriceHistory = require('../models/PriceHistory');
-const Product = require('../models/Product');
-const fetchProductData = require('./fetchProductData');
-const OldPrices = require('../models/OldPrices')
+import { PriceHistory } from '../models/PriceHistory';
+import { Product } from '../models/Product';
+import { fetchProductData } from './fetchProductData';
+import { OldPrices } from '../models/OldPrices';
 
 const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
@@ -73,4 +73,4 @@ const updateData = async (args) => {
   }
 }
 
-module.exports = updateData;;
+export { updateData };

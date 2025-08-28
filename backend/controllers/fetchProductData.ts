@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+import { spawn } from "child_process";
 
 const fetchProductData = async (executablePath, args) => {
   return new Promise((resolve, reject) => {
@@ -23,4 +23,4 @@ const fetchProductData = async (executablePath, args) => {
   });
 }
 
-module.exports = fetchProductData;
+export { fetchProductData };

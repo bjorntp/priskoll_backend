@@ -1,10 +1,10 @@
-const express = require('express');
-const sequelize = require('./config/db');
+import express from 'express';
 const app = express();
-const fetchRoutes = require('./routes/fetchRoutes')
-const updateRoutes = require('./routes/updateRoutes')
-const PORT = process.env.PORT || 3001;
-const cors = require('cors')
+import fetchRoutes from './routes/fetchRoutes';
+import updateRoutes from './routes/updateRoutes';
+const PORT = Number(process.env.PORT) || 3001;
+import cors from 'cors';
+import { sequelize } from './config/db';
 
 async function init() {
   try {
@@ -16,7 +16,6 @@ async function init() {
 }
 
 const corsOptions = {
-  //origin: ['http://localhost:5173', 'http://frontend:5173', 'http://192.168.*.*:5173'],
   origin: '*',
   methods: ['GET', 'POST'],
 };

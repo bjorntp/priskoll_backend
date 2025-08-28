@@ -1,10 +1,11 @@
-const sequelize = require('../config/db');
-const Product = require('../models/Product')
-const PriceHistory = require('../models/PriceHistory');
-const OldPrices = require('../models/OldPrices')
-const { where, Op } = require('sequelize');
+import { sequelize } from '../config/db';
+import { Product } from '../models/Product';
+import { PriceHistory } from '../models/PriceHistory';
+import { OldPrices } from '../models/OldPrices';
+import { Op } from 'sequelize';
+const { Request, Response } from 'express';
 
-const getApk = async (req, res) => {
+const getApk = async (req: Request, res: Response) => {
   try {
     const productsApk = await Product.findAll({
       order: [['apk', 'DESC']],
@@ -121,7 +122,7 @@ const getPriceChangesRaise = async (req, res) => {
   }
 }
 
-module.exports = {
+export {
   getApk,
   getPriceChangesLower,
   getPriceChangesRaise,

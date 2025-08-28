@@ -1,4 +1,4 @@
-const updateData = require('../controllers/updateData')
+import { updateData } from '../controllers/updateData';
 
 const getRestWine = async (req, res) => {
   try {
@@ -48,8 +48,4 @@ const getRed = async (req, res) => {
   }
 }
 
-module.exports = {
-  getRed,
-  getRestWine,
-  getWhite
-};
+export { getRestWine, getWhite, getRed };

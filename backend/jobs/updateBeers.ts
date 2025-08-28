@@ -1,4 +1,4 @@
-const updateData = require('../controllers/updateData')
+import { updateData } from '../controllers/updateData';
 
 const getBeers = async (req, res) => {
   console.log("Updating beer data")
@@ -11,4 +11,4 @@ const getBeers = async (req, res) => {
   }
 }
 
-module.exports = getBeers;
+export { getBeers };

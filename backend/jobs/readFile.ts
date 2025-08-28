@@ -1,7 +1,6 @@
-const PriceHistory = require('../models/PriceHistory');
-const Product = require('../models/Product');
-const fetchProductData = require('../controllers/fetchProductData');
-const parsedData = require('../systembolagetapi/archived_data.json')
+import { PriceHistory } from '../models/PriceHistory';
+import { Product } from '../models/Product';
+import { parsedData } from '../systembolagetapi/archived_data.json';
 
 const addData = async (element) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
@@ -51,4 +50,4 @@ const readDataFromJSON = async () => {
   });
 }
 
-module.exports = readDataFromJSON;
+export { readDataFromJSON };
