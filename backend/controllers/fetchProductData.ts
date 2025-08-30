@@ -1,11 +1,11 @@
 import { spawn } from "child_process";
 
-const fetchProductData = async (executablePath, args) => {
+const fetchProductData: (executablePath: string, args: string[]) => Promise<String> = async (executablePath: string, args: string[]) => {
   return new Promise((resolve, reject) => {
     const process = spawn(executablePath, args);
     let rawData = '';
 
-    process.stdout.on('data', (chunk) => {
+    process.stdout.on('data', (chunk: String) => {
       rawData += chunk.toString();
     });
 
@@ -14,7 +14,7 @@ const fetchProductData = async (executablePath, args) => {
         try {
           resolve(JSON.parse(rawData));
         } catch (error) {
-          reject("Error: ", error);
+          reject("Error: " + error);
         }
       } else {
         reject("Error");

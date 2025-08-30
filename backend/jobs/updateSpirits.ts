@@ -1,6 +1,7 @@
 import { updateData } from '../controllers/updateData';
+import { Request, Response } from 'express';
 
-const getSpirits = async (req, res) => {
+const getSpirits = async (req: Request, res: Response) => {
   console.log("Updating spirit data")
   try {
     let sprit = ['assortment', '--category', "Sprit"];

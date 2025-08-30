@@ -1,9 +1,10 @@
 import { updateData } from '../controllers/updateData';
+import { Request, Response } from 'express';
 
-const getBeers = async (req, res) => {
+const getBeers = async (req: Request, res: Response) => {
   console.log("Updating beer data")
   try {
-    let beer = ['assortment', '--category', "Öl"];
+    const beer = ['assortment', '--category', "Öl"];
     await updateData(beer);
     return res.status(201).send('Updated beer data')
   } catch (error) {

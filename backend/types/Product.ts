@@ -1,4 +1,4 @@
-export type Product = {
+export type ProductType = {
   alcoholPercentage?: number;
   apk?: number;
   assortment?: string;

@@ -1,12 +1,12 @@
-import { Product } from "./Product";
+import { ProductType } from "./Product";
 
-type OldPrices = {
+type OldPricesType = {
   newPrice: number;
   oldPrice: number;
   updatedAt: Date;
 }
 
-export type PriceHistory = {
+export type PriceHistoryType = {
   id?: number;
   productId: string;
   oldPrice: number;
@@ -14,6 +14,6 @@ export type PriceHistory = {
   changePercentage: number;
   createdAt?: string;
   updatedAt?: string;
-  Product: Product;
-  OldPrices: OldPrices[];
+  Product: ProductType;
+  OldPrices: OldPricesType[];
 };

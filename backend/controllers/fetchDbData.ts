@@ -3,9 +3,9 @@ import { Product } from '../models/Product';
 import { PriceHistory } from '../models/PriceHistory';
 import { OldPrices } from '../models/OldPrices';
 import { Op } from 'sequelize';
-const { Request, Response } from 'express';
+import { Request, Response } from 'express';
 
-const getApk = async (req: Request, res: Response) => {
+const getApk = async (_req: Request, res: Response) => {
   try {
     const productsApk = await Product.findAll({
       order: [['apk', 'DESC']],
@@ -22,7 +22,7 @@ const getApk = async (req: Request, res: Response) => {
   }
 }
 
-const getDates = async (req, res) => {
+const getDates = async (_req: Request, res: Response) => {
   try {
     const uniqueUpdatedAt = await OldPrices.findAll({
       attributes: [
@@ -39,7 +39,7 @@ const getDates = async (req, res) => {
   }
 }
 
-const getPriceChangesLower = async (req, res) => {
+const getPriceChangesLower = async (req: Request, res: Response) => {
   try {
     let { sort } = req.query;
     let order = [["newPrice", "ASC"]]
@@ -83,10 +83,11 @@ const getPriceChangesLower = async (req, res) => {
   }
 }
 
-const getPriceChangesRaise = async (req, res) => {
+const getPriceChangesRaise = async (req: Request, res: Response) => {
   try {
     let { sort } = req.query;
     let order = [["newPrice", "DESC"]]
+
     if (sort === "priceabs") {
       order = [["newPrice", "DESC"]]
     } else if (sort === "percentage") {

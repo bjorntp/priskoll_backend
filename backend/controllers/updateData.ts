@@ -2,8 +2,10 @@ import { PriceHistory } from '../models/PriceHistory';
 import { Product } from '../models/Product';
 import { fetchProductData } from './fetchProductData';
 import { OldPrices } from '../models/OldPrices';
+import type { ProductType } from '../types/Product'
+import { Request, Response } from 'express';
 
-const addData = async (element) => {
+const addData = async (element: ProductType) => {
   const dbProduct = await Product.findOne({ where: { productId: element.productId } });
   if (dbProduct) {
     const percentage = element.price / dbProduct.price;
@@ -55,7 +57,7 @@ const addData = async (element) => {
   }
 }
 
-const updateData = async (args) => {
+const updateData = async (args: string[]) => {
   let executablePath = './systembolagetapi/sysapi'
   let parsedData = await fetchProductData(executablePath, args);
   let newElementsArray = [];
