@@ -2,7 +2,7 @@ import { sequelize } from '../config/db';
 import { Product } from '../models/Product';
 import { PriceHistory } from '../models/PriceHistory';
 import { OldPrices } from '../models/OldPrices';
-import { Op } from 'sequelize';
+import { Model, ModelCtor, Op } from 'sequelize';
 import { Request, Response } from 'express';
 
 const getApk = async (_req: Request, res: Response) => {
@@ -86,17 +86,25 @@ const getPriceChangesLower = async (req: Request, res: Response) => {
 const getPriceChangesRaise = async (req: Request, res: Response) => {
   try {
     let { sort } = req.query;
-    let order = [["newPrice", "DESC"]]
 
-    if (sort === "priceabs") {
-      order = [["newPrice", "DESC"]]
-    } else if (sort === "percentage") {
-      order = [["changePercentage", "DESC"]]
-    } else if (sort === "alphabetical") {
-      order = [[{ model: Product }, 'productNameBold', "ASC"]]
-    } else if (sort == "category") {
-      order = [[{ model: Product }, 'categoryLevel1']]
+    let order: [string[]];
+    switch (sort) {
+      case "priceabs":
+        order = [["newPrice", "DESC"]]
+        break;
+      case "percentage":
+        order = [["changePercentage", "DESC"]]
+        break;
+      case "alphabetical":
+        order = [[{ model: Product }, 'productNameBold', "ASC"]]
+        break;
+      case "category":
+        order = [[{ model: Product }, 'categoryLevel1']]
+      default:
+        order = [["newPrice", "DESC"]]
+        break;
     }
+
     const productsLowered = await PriceHistory.findAll(
       {
         where: {
