@@ -1,10 +1,18 @@
 package com.bjorntp.systemet.systemetapi;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,12 +24,13 @@ public class SystemetApiUtil {
   HttpClient httpClient;
   Pattern apiTokenPattern;
   Pattern appBundlePathPattern;
+  final String BASE_API = "https://api-extern.systembolaget.se/sb-api-ecommerce/v1/productsearch/search";
 
   public SystemetApiUtil() {
+    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
   }
 
   public String getApiKey() {
-    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
     apiTokenPattern = Pattern.compile("NEXT_PUBLIC_API_KEY_APIM:\"([^\"]+)\"");
     appBundlePathPattern = Pattern.compile("<script src=\"([^\"]+_app-[^\"]+.js)\"");
 
@@ -79,24 +88,71 @@ public class SystemetApiUtil {
     return apiKey;
   }
 
-  public String search() {
+  public String getAllData(String apiKey) {
 
-    // Scheme: "https",
-    // Host: "api-extern.systembolaget.se",
-    // Path: "/sb-api-ecommerce/v1/productsearch/search",
-    // RawQuery: query.Encode(),
-    //
-    // log = log.With(slog.String("url", u.String()))
-    //
-    // header := http.Header{}
-    // header.Set("Origin", "https://www.systembolaget.se")
-    // header.Set("Access-Control-Allow-Origin", "*")
-    // header.Set("Pragma", "no-cache")
-    // header.Set("Accept", "application/json")
-    // header.Set("Accept-Encoding", "gzip")
-    // header.Set("Cache-Control", "no-cache")
-    // header.Set("Ocp-Apim-Subscription-Key", c.apiKey)
+    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
 
-    return "";
+    JsonArray allProducts;
+
+    JsonArray categories = getAllLevel2Categories(apiKey);
+    for (int i = 0; i < categories.size(); i++) {
+      HttpRequest searchRequest = HttpRequest.newBuilder()
+          .uri(URI.create(URLEncoder.encode(BASE_API + "?CategoryLevel2="
+              + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", ""), StandardCharsets.UTF_8)))
+          .GET()
+          .header("Origin", "https://www.systembolaget.se")
+          .header("Access-Control-Allow-Origin", "*")
+          .header("Pragma", "no-cache")
+          .header("Accept", "application/json")
+          .header("Accept-Encoding", "gzip")
+          .header("Cache-Control", "no-cache")
+          .header("Ocp-Apim-Subscription-Key", apiKey)
+          .build();
+
+      HttpResponse<String> searchResponse;
+
+      try {
+        searchResponse = httpClient.send(searchRequest, HttpResponse.BodyHandlers.ofString());
+      } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+        return "There was an error fetching the search results";
+      }
+
+      int numberOfPages = JsonParser.parseString(searchResponse.body()).getAsJsonObject().get("metadata")
+          .getAsJsonObject().get("totalPages").getAsInt();
+      System.out
+          .println("Number of pages for " + categories.get(i).getAsJsonObject().get("value") + " is " + numberOfPages);
+      ;
+
+    }
+
+    return "XD";
+  }
+
+  public JsonArray getAllLevel2Categories(String apiKey) {
+
+    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
+
+    HttpRequest searchRequest = HttpRequest.newBuilder().uri(URI.create(BASE_API + "?categoryLevel!=X")).GET()
+        .header("Origin", "https://www.systembolaget.se")
+        .header("Access-Control-Allow-Origin", "*")
+        .header("Pragma", "no-cache")
+        .header("Accept", "application/json")
+        .header("Accept-Encoding", "gzip")
+        .header("Cache-Control", "no-cache")
+        .header("Ocp-Apim-Subscription-Key", apiKey)
+        .build();
+
+    HttpResponse<String> searchResponse;
+
+    try {
+      searchResponse = httpClient.send(searchRequest, HttpResponse.BodyHandlers.ofString());
+    } catch (IOException | InterruptedException e) {
+      return null;
+    }
+
+    JsonObject root = JsonParser.parseString(searchResponse.body()).getAsJsonObject();
+    JsonArray filters = root.getAsJsonArray("filters");
+    return filters.get(0).getAsJsonObject().get("child").getAsJsonObject().get("searchModifiers").getAsJsonArray();
   }
 }
