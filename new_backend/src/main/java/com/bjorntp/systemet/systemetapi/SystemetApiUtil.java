@@ -50,7 +50,6 @@ public class SystemetApiUtil {
         + appBundleMatcher.group().substring(appBundleMatcher.group().indexOf('\"') + 1,
             appBundleMatcher.group().lastIndexOf('\"'));
 
-    System.out.println("-------------- Searching for KEY WITH BUNDLE: " + uri);
     HttpRequest getAppBundleRequest = HttpRequest.newBuilder()
         .uri(URI.create(uri))
         .GET()
@@ -78,5 +77,26 @@ public class SystemetApiUtil {
     String apiKey = apiMatch.substring(apiMatch.indexOf('\"') + 1, apiMatch.lastIndexOf('\"'));
 
     return apiKey;
+  }
+
+  public String search() {
+
+    // Scheme: "https",
+    // Host: "api-extern.systembolaget.se",
+    // Path: "/sb-api-ecommerce/v1/productsearch/search",
+    // RawQuery: query.Encode(),
+    //
+    // log = log.With(slog.String("url", u.String()))
+    //
+    // header := http.Header{}
+    // header.Set("Origin", "https://www.systembolaget.se")
+    // header.Set("Access-Control-Allow-Origin", "*")
+    // header.Set("Pragma", "no-cache")
+    // header.Set("Accept", "application/json")
+    // header.Set("Accept-Encoding", "gzip")
+    // header.Set("Cache-Control", "no-cache")
+    // header.Set("Ocp-Apim-Subscription-Key", c.apiKey)
+
+    return "";
   }
 }
