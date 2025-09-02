@@ -1,28 +1,34 @@
 package com.bjorntp.systemet.systemetapi;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * SystemetApiController
  */
+@RestController
+@RequestMapping("/api/systemet")
 public class SystemetApiController {
 
-  private SystemetApiUtil systemetApiUtil;
+  private final SystemetApiService service;
 
-  private String API_KEY;
-
-  public SystemetApiController() {
-    systemetApiUtil = new SystemetApiUtil();
-    this.API_KEY = systemetApiUtil.getApiKey();
-
+  public SystemetApiController(SystemetApiService service) {
+    this.service = service;
   }
 
-  public String search() {
+  @GetMapping("/import")
+  public String importProducts() {
+    long startTime = System.currentTimeMillis();
     try {
-      if (systemetApiUtil.getAllData(API_KEY) != null) {
-        return "hej!";
-      }
+      service.fetchAndStoryProduts();
+      long endTime = System.currentTimeMillis();
+      long durationTime = (endTime - startTime) / 1000;
+      return "Products imported in " + durationTime + " seconds.";
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
+      return "Error: " + e.getMessage();
     }
-    return "Annars";
   }
+
 }

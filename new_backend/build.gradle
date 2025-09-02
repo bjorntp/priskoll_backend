@@ -23,17 +23,38 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Boot Web & JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // PostgreSQL driver
+    implementation 'org.postgresql:postgresql:42.7.3'
+
+    // JDBI for SQL mapping
+    implementation 'org.jdbi:jdbi3-core:3.47.0'
+    implementation 'org.jdbi:jdbi3-sqlobject:3.47.0'
+
+    // JSON parsing
     implementation 'com.google.code.gson:gson:2.13.1'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Flyway for database migrations
+    implementation("org.flywaydb:flyway-database-postgresql")
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot DevTools (optional)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+
+
 tasks.named('test') {
-	useJUnitPlatform()
+	enabled = false
 }

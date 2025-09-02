@@ -1,6 +1,5 @@
 package com.bjorntp.systemet.systemetapi;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -8,26 +7,29 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Component;
 
 /**
  * SystemetApiUtil
  */
+@Component
 public class SystemetApiUtil {
 
-  HttpClient httpClient;
+  HttpClient httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
   Pattern apiTokenPattern;
   Pattern appBundlePathPattern;
   final String BASE_API = "https://api-extern.systembolaget.se/sb-api-ecommerce/v1/productsearch/search";
 
   public SystemetApiUtil() {
-    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
+    HttpClient httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
   }
 
   public String getApiKey() {
@@ -88,17 +90,17 @@ public class SystemetApiUtil {
     return apiKey;
   }
 
-  public String getAllData(String apiKey) {
+  public JsonArray getAllData(String apiKey) {
 
     httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
 
-    JsonArray allProducts;
-
+    JsonArray returnArray = new JsonArray();
     JsonArray categories = getAllLevel2Categories(apiKey);
     for (int i = 0; i < categories.size(); i++) {
       HttpRequest searchRequest = HttpRequest.newBuilder()
-          .uri(URI.create(URLEncoder.encode(BASE_API + "?CategoryLevel2="
-              + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", ""), StandardCharsets.UTF_8)))
+          .uri(URI.create(BASE_API + "?CategoryLevel2="
+              + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", "").replaceAll(" ",
+                  "%20").replaceAll("&", "%26")))
           .GET()
           .header("Origin", "https://www.systembolaget.se")
           .header("Access-Control-Allow-Origin", "*")
@@ -114,19 +116,75 @@ public class SystemetApiUtil {
       try {
         searchResponse = httpClient.send(searchRequest, HttpResponse.BodyHandlers.ofString());
       } catch (IOException | InterruptedException e) {
+
         e.printStackTrace();
-        return "There was an error fetching the search results";
+        return new JsonArray();
       }
 
-      int numberOfPages = JsonParser.parseString(searchResponse.body()).getAsJsonObject().get("metadata")
-          .getAsJsonObject().get("totalPages").getAsInt();
-      System.out
-          .println("Number of pages for " + categories.get(i).getAsJsonObject().get("value") + " is " + numberOfPages);
-      ;
+      JsonObject root = JsonParser.parseString(searchResponse.body()).getAsJsonObject();
 
+      System.out.println("Kategori: " + categories.get(i).getAsJsonObject().get("value").toString() + " it has "
+          + root.get("metadata").getAsJsonObject().get("docCount").toString() + " products.");
+      int numberOfPages = root.get("metadata")
+          .getAsJsonObject().get("totalPages").getAsInt();
+
+      JsonArray products = root.get("products").getAsJsonArray();
+      products.forEach(returnArray::add);
+
+      for (int j = 2; j <= numberOfPages; j++) {
+        HttpRequest iteratedSearchRequest = HttpRequest.newBuilder()
+            .uri(URI.create(BASE_API + "?page=" + j + "&CategoryLevel2="
+                + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", "").replaceAll(" ",
+                    "%20").replaceAll("&", "%26")))
+            .GET()
+            .header("Origin", "https://www.systembolaget.se")
+            .header("Access-Control-Allow-Origin", "*")
+            .header("Pragma", "no-cache")
+            .header("Accept", "application/json")
+            .header("Accept-Encoding", "gzip")
+            .header("Cache-Control", "no-cache")
+            .header("Ocp-Apim-Subscription-Key", apiKey)
+            .build();
+
+        HttpResponse<String> iteratedSearchResponse;
+
+        try {
+          iteratedSearchResponse = httpClient.send(iteratedSearchRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+          e.printStackTrace();
+          return returnArray;
+        }
+
+        JsonObject iteratedRoot = JsonParser.parseString(iteratedSearchResponse.body()).getAsJsonObject();
+
+        JsonArray iteratedProducts = iteratedRoot.get("products").getAsJsonArray();
+        iteratedProducts.forEach(returnArray::add);
+
+      }
+    }
+    System.out.println("Total elements in array is: " + returnArray.size());
+
+    // 🔍 Check for duplicate productId
+    Set<String> seen = new HashSet<>();
+    Set<String> duplicates = new HashSet<>();
+
+    for (int i = 0; i < returnArray.size(); i++) {
+      JsonObject product = returnArray.get(i).getAsJsonObject();
+      String productId = product.get("productId").getAsString();
+
+      if (!seen.add(productId)) {
+        duplicates.add(productId);
+      }
     }
 
-    return "XD";
+    if (!duplicates.isEmpty()) {
+      System.out.println("⚠️ Found duplicate productIds: " + duplicates.size());
+      duplicates.forEach(id -> System.out.println("Duplicate: " + id));
+    } else {
+      System.out.println("✅ All productIds are unique!");
+    }
+
+    return returnArray;
   }
 
   public JsonArray getAllLevel2Categories(String apiKey) {
