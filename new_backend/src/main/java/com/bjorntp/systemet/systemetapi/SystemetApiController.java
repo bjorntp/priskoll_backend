@@ -4,18 +4,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 /**
  * SystemetApiController
  */
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/systemet")
 public class SystemetApiController {
 
   private final SystemetApiService service;
-
-  public SystemetApiController(SystemetApiService service) {
-    this.service = service;
-  }
 
   @GetMapping("/import")
   public String importProducts() {

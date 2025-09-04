@@ -1,6 +1,7 @@
 package com.bjorntp.systemet.domain;
 
 import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -58,7 +59,6 @@ public class Product {
   private String packagingLevel1;
   private String packagingCo2ImpactLevel;
   private Boolean isNews;
-  private String[] images;
   private Boolean isDiscontinued;
   private Boolean isSupplierTemporaryNotAvailable;
   private Double sugarContent;
@@ -82,4 +82,9 @@ public class Product {
   private Boolean isTstAssortment;
   private Boolean isTsvAssortment;
   private Boolean isFsTsAssortment;
+
+  public double getApk() {
+    return (volume * (alcoholPercentage / 100)) / price;
+  }
+
 }

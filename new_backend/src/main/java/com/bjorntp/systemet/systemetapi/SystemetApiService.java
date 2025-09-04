@@ -4,19 +4,17 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonArray;
 
+import lombok.AllArgsConstructor;
+
 /**
  * SystemetApiService
  */
 @Service
+@AllArgsConstructor
 public class SystemetApiService {
 
   private final SystemetApiUtil apiUtil;
   private final SystemetRepository systemetRepository;
-
-  public SystemetApiService(SystemetApiUtil apiUtil, SystemetRepository systemetRepository) {
-    this.apiUtil = apiUtil;
-    this.systemetRepository = systemetRepository;
-  }
 
   public void fetchAndStoryProduts() {
     String apiKey = apiUtil.getApiKey();

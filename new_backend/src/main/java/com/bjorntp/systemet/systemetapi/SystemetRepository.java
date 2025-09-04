@@ -14,17 +14,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import lombok.AllArgsConstructor;
+
 /**
  * SystemetRepository
  */
 @Repository
+@AllArgsConstructor
 public class SystemetRepository {
 
   private final Jdbi jdbi;
-
-  public SystemetRepository(Jdbi jdbi) {
-    this.jdbi = jdbi;
-  }
 
   public void addJsonArrayToDb(JsonArray productArray) {
     GsonBuilder gsonBuilder = new GsonBuilder();
@@ -92,7 +91,6 @@ public class SystemetRepository {
                       "packagingLevel1",
                       "packagingCo2ImpactLevel",
                       "isNews",
-                      "images",
                       "isDiscontinued",
                       "isSupplierTemporaryNotAvailable",
                       "sugarContent",
@@ -115,7 +113,8 @@ public class SystemetRepository {
                       "isTssAssortment",
                       "isTstAssortment",
                       "isTsvAssortment",
-                      "isFsTsAssortment"
+                      "isFsTsAssortment",
+                      "apk"
                     ) VALUES (
                       :productId,
                       :productNumber,
@@ -169,7 +168,6 @@ public class SystemetRepository {
                       :packagingLevel1,
                       :packagingCo2ImpactLevel,
                       :isNews,
-                      :images,
                       :isDiscontinued,
                       :isSupplierTemporaryNotAvailable,
                       :sugarContent,
@@ -192,9 +190,13 @@ public class SystemetRepository {
                       :isTssAssortment,
                       :isTstAssortment,
                       :isTsvAssortment,
-                      :isFsTsAssortment)
-                      ON CONFLICT ("productId") DO UPDATE
-                        SET price = EXCLUDED.price
+                      :isFsTsAssortment,
+                      :apk)
+                      ON CONFLICT ("productNumber") DO UPDATE
+                        SET
+                          price = EXCLUDED.price,
+                         "isBsAssortment" = EXCLUDED."isBsAssortment",
+                         "updatedAt" = NOW()
                     """).bindBean(product).execute());
     }
   }

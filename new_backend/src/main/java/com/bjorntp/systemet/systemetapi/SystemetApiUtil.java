@@ -1,17 +1,16 @@
 package com.bjorntp.systemet.systemetapi;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,20 +20,15 @@ import org.springframework.stereotype.Component;
  * SystemetApiUtil
  */
 @Component
+@NoArgsConstructor
 public class SystemetApiUtil {
 
-  HttpClient httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
-  Pattern apiTokenPattern;
-  Pattern appBundlePathPattern;
   final String BASE_API = "https://api-extern.systembolaget.se/sb-api-ecommerce/v1/productsearch/search";
-
-  public SystemetApiUtil() {
-    HttpClient httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
-  }
+  final HttpClient httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
+  final Pattern apiTokenPattern = Pattern.compile("NEXT_PUBLIC_API_KEY_APIM:\"([^\"]+)\"");
+  final Pattern appBundlePathPattern = Pattern.compile("<script src=\"([^\"]+_app-[^\"]+.js)\"");
 
   public String getApiKey() {
-    apiTokenPattern = Pattern.compile("NEXT_PUBLIC_API_KEY_APIM:\"([^\"]+)\"");
-    appBundlePathPattern = Pattern.compile("<script src=\"([^\"]+_app-[^\"]+.js)\"");
 
     HttpRequest mainPageRequest = HttpRequest.newBuilder()
         .uri(URI.create("https://systembolaget.se")).GET().header("User-Agent", "Java HttpClient")
@@ -92,11 +86,9 @@ public class SystemetApiUtil {
 
   public JsonArray getAllData(String apiKey) {
 
-    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
-
     JsonArray returnArray = new JsonArray();
     JsonArray categories = getAllLevel2Categories(apiKey);
-    for (int i = 0; i < categories.size(); i++) {
+    for (int i = 0; i < 1; i++) {
       HttpRequest searchRequest = HttpRequest.newBuilder()
           .uri(URI.create(BASE_API + "?CategoryLevel2="
               + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", "").replaceAll(" ",
@@ -131,11 +123,14 @@ public class SystemetApiUtil {
       JsonArray products = root.get("products").getAsJsonArray();
       products.forEach(returnArray::add);
 
-      for (int j = 2; j <= numberOfPages; j++) {
+      for (int j = 2; j <= 1; j++) {
         HttpRequest iteratedSearchRequest = HttpRequest.newBuilder()
             .uri(URI.create(BASE_API + "?page=" + j + "&CategoryLevel2="
-                + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", "").replaceAll(" ",
-                    "%20").replaceAll("&", "%26")))
+                +
+                categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"",
+                    "").replaceAll(" ",
+                        "%20")
+                    .replaceAll("&", "%26")))
             .GET()
             .header("Origin", "https://www.systembolaget.se")
             .header("Access-Control-Allow-Origin", "*")
@@ -149,7 +144,8 @@ public class SystemetApiUtil {
         HttpResponse<String> iteratedSearchResponse;
 
         try {
-          iteratedSearchResponse = httpClient.send(iteratedSearchRequest, HttpResponse.BodyHandlers.ofString());
+          iteratedSearchResponse = httpClient.send(iteratedSearchRequest,
+              HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
           e.printStackTrace();
           return returnArray;
@@ -162,34 +158,10 @@ public class SystemetApiUtil {
 
       }
     }
-    System.out.println("Total elements in array is: " + returnArray.size());
-
-    // 🔍 Check for duplicate productId
-    Set<String> seen = new HashSet<>();
-    Set<String> duplicates = new HashSet<>();
-
-    for (int i = 0; i < returnArray.size(); i++) {
-      JsonObject product = returnArray.get(i).getAsJsonObject();
-      String productId = product.get("productId").getAsString();
-
-      if (!seen.add(productId)) {
-        duplicates.add(productId);
-      }
-    }
-
-    if (!duplicates.isEmpty()) {
-      System.out.println("⚠️ Found duplicate productIds: " + duplicates.size());
-      duplicates.forEach(id -> System.out.println("Duplicate: " + id));
-    } else {
-      System.out.println("✅ All productIds are unique!");
-    }
-
     return returnArray;
   }
 
   public JsonArray getAllLevel2Categories(String apiKey) {
-
-    httpClient = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
 
     HttpRequest searchRequest = HttpRequest.newBuilder().uri(URI.create(BASE_API + "?categoryLevel!=X")).GET()
         .header("Origin", "https://www.systembolaget.se")
@@ -213,4 +185,5 @@ public class SystemetApiUtil {
     JsonArray filters = root.getAsJsonArray("filters");
     return filters.get(0).getAsJsonObject().get("child").getAsJsonObject().get("searchModifiers").getAsJsonArray();
   }
+
 }

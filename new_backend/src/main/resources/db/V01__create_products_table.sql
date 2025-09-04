@@ -1,8 +1,8 @@
 -- Camelcase because I did that in the beginning, mistakes where made.
 
 CREATE TABLE products (
-    "productId" BIGINT PRIMARY KEY,
-    "productNumber" VARCHAR(50),
+    "productId" BIGINT ,
+    "productNumber" VARCHAR(50) PRIMARY KEY,
     "productNameBold" VARCHAR(255),
     "productNameThin" VARCHAR(255),
     "category" VARCHAR(255),
@@ -78,5 +78,8 @@ CREATE TABLE products (
     "isTsvAssortment" BOOLEAN,
     "isFsTsAssortment" BOOLEAN,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "oldPrice" NUMERIC(10,2) DEFAULT NULL,
+    "dateOfPriceChange" TIMESTAMP DEFAULT NULL,
+    "apk" NUMERIC(10, 2)
 );
