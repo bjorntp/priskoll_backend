@@ -1,4 +1,4 @@
-package com.bjorntp.systemet.systemetapi;
+package com.bjorntp.systemet.database;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -6,9 +6,9 @@ import java.time.LocalTime;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
-import com.bjorntp.systemet.domain.LocalDateTimeAdapter;
-import com.bjorntp.systemet.domain.LocalTimeAdapter;
-import com.bjorntp.systemet.domain.Product;
+import com.bjorntp.systemet.domains.LocalDateTimeAdapter;
+import com.bjorntp.systemet.domains.LocalTimeAdapter;
+import com.bjorntp.systemet.domains.Product;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

@@ -81,5 +81,5 @@ CREATE TABLE products (
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "oldPrice" NUMERIC(10,2) DEFAULT NULL,
     "dateOfPriceChange" TIMESTAMP DEFAULT NULL,
-    "apk" NUMERIC(10, 2)
+    "apk" DOUBLE PRECISION
 );

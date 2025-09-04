@@ -1,4 +1,4 @@
-package com.bjorntp.systemet.domain;
+package com.bjorntp.systemet.domains;
 
 import lombok.Data;
 
@@ -82,9 +82,14 @@ public class Product {
   private Boolean isTstAssortment;
   private Boolean isTsvAssortment;
   private Boolean isFsTsAssortment;
+  private double apk;
 
   public double getApk() {
     return (volume * (alcoholPercentage / 100)) / price;
+  }
+
+  public void setApk(double apk) {
+    this.apk = apk;
   }
 
 }

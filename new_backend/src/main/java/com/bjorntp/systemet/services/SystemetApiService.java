@@ -1,7 +1,9 @@
-package com.bjorntp.systemet.systemetapi;
+package com.bjorntp.systemet.services;
 
 import org.springframework.stereotype.Service;
 
+import com.bjorntp.systemet.database.SystemetRepository;
+import com.bjorntp.systemet.utils.SystemetApiUtil;
 import com.google.gson.JsonArray;
 
 import lombok.AllArgsConstructor;

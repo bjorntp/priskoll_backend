@@ -1,4 +1,4 @@
-package com.bjorntp.systemet.domain;
+package com.bjorntp.systemet.domains;
 
 import java.lang.reflect.Type;
 import java.time.format.DateTimeFormatter;

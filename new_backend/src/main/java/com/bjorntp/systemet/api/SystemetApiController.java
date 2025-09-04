@@ -1,8 +1,10 @@
-package com.bjorntp.systemet.systemetapi;
+package com.bjorntp.systemet.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bjorntp.systemet.services.SystemetApiService;
 
 import lombok.AllArgsConstructor;
 

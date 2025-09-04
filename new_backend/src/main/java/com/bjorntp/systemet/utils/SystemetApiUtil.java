@@ -1,4 +1,4 @@
-package com.bjorntp.systemet.systemetapi;
+package com.bjorntp.systemet.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -88,7 +88,7 @@ public class SystemetApiUtil {
 
     JsonArray returnArray = new JsonArray();
     JsonArray categories = getAllLevel2Categories(apiKey);
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < categories.size(); i++) {
       HttpRequest searchRequest = HttpRequest.newBuilder()
           .uri(URI.create(BASE_API + "?CategoryLevel2="
               + categories.get(i).getAsJsonObject().get("value").toString().replaceAll("\"", "").replaceAll(" ",
@@ -123,7 +123,7 @@ public class SystemetApiUtil {
       JsonArray products = root.get("products").getAsJsonArray();
       products.forEach(returnArray::add);
 
-      for (int j = 2; j <= 1; j++) {
+      for (int j = 2; j <= numberOfPages; j++) {
         HttpRequest iteratedSearchRequest = HttpRequest.newBuilder()
             .uri(URI.create(BASE_API + "?page=" + j + "&CategoryLevel2="
                 +
