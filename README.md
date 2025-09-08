@@ -8,9 +8,9 @@ För tillfället finns en fungerande version av sidan på https://bjorntp.com me
 Använder:
 <ul>
 <li>Docker</li>
-<li>MySQL</li>
+<li>Postgres</li>
 <li>React</li>
-<li>Node.js</li>
+<li>Spring boot</li>
 </ul>
 
 Använder [systembolaget-api](https://github.com/AlexGustafsson/systembolaget-api)
