@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bjorntp.systemet.database.PriskollRepository;
 import com.bjorntp.systemet.domains.ApkPage;
-import com.bjorntp.systemet.domains.Product;
+import com.bjorntp.systemet.domains.ProductDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -20,11 +20,11 @@ public class PriskollService {
 
   private PriskollRepository priskollRepository;
 
-  public ArrayList<Product> fetchLowered() {
+  public ArrayList<ProductDTO> fetchLowered() {
     return priskollRepository.loweredPrices();
   }
 
-  public ArrayList<Product> fetchRaised() {
+  public ArrayList<ProductDTO> fetchRaised() {
     return priskollRepository.raisedPrices();
   }
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bjorntp.systemet.domains.ApkPage;
-import com.bjorntp.systemet.domains.Product;
+import com.bjorntp.systemet.domains.ProductDTO;
 import com.bjorntp.systemet.services.PriskollService;
 
 import lombok.AllArgsConstructor;
@@ -25,12 +25,12 @@ public class PriskollController {
   private PriskollService priskollService;
 
   @GetMapping("/lowered")
-  public ArrayList<Product> lowered() {
+  public ArrayList<ProductDTO> lowered() {
     return priskollService.fetchLowered();
   }
 
   @GetMapping("/raised")
-  public ArrayList<Product> raised() {
+  public ArrayList<ProductDTO> raised() {
     return priskollService.fetchRaised();
   }
 

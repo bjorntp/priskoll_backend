@@ -14,6 +14,6 @@ public class ApkPage {
 
   private int page;
   private int size;
-  private List<Product> products;
+  private List<ProductDTO> products;
 
 }
