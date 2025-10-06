@@ -1,0 +1,2 @@
+ALTER TABLE products 
+ALTER COLUMN "hasCasqueTaste" TYPE VARCHAR(30);
